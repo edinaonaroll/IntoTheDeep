@@ -1,11 +1,13 @@
-package edu.edina.opmodes;
+package edu.edina.opmodes.Centerstage;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Basic: TrigTeleOp", group="TrigTeleOp")
+import edu.edina.definitions.BotBits;
+
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="23-24Teleop", group="23-24Teleop")
 public class TeleOp extends LinearOpMode {
 
 
@@ -14,10 +16,10 @@ public class TeleOp extends LinearOpMode {
 
         // Declare drive motors
         // Make sure your ID's match your configuration
-        DcMotor leftFront = hardwareMap.dcMotor.get("leftFront");
-        DcMotor leftBack = hardwareMap.dcMotor.get("leftBack");
-        DcMotor rightFront = hardwareMap.dcMotor.get("rightFront");
-        DcMotor rightBack = hardwareMap.dcMotor.get("rightBack");
+        DcMotor leftFront = hardwareMap.dcMotor.get(BotBits.FrontLeftDriveMotor);
+        DcMotor leftBack = hardwareMap.dcMotor.get(BotBits.BackLeftDriveMotor);
+        DcMotor rightFront = hardwareMap.dcMotor.get(BotBits.FrontRightDriveMotor);
+        DcMotor rightBack = hardwareMap.dcMotor.get(BotBits.BackRightDriveMotor);
 
         // Declare launcher/wrist/hand
         Servo launcherServo = hardwareMap.servo.get("launcher");
