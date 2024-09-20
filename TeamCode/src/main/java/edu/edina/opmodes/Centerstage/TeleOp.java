@@ -22,27 +22,27 @@ public class TeleOp extends LinearOpMode {
         DcMotor rightBack = hardwareMap.dcMotor.get(BotBits.BackRightDriveMotor);
 
         // Declare launcher/wrist/hand
-        Servo launcherServo = hardwareMap.servo.get("launcher");
-        Servo wristServo = hardwareMap.servo.get("wrist");
-        Servo handServo = hardwareMap.servo.get("hand");
+//        Servo launcherServo = hardwareMap.servo.get("launcher");
+//        Servo wristServo = hardwareMap.servo.get("wrist");
+//        Servo handServo = hardwareMap.servo.get("hand");
 
         // Declare arm
-        DcMotor armMotor = hardwareMap.dcMotor.get("arm");
-        armMotor.setTargetPosition(0);
-        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        DcMotor armMotor = hardwareMap.dcMotor.get("arm");
+//        armMotor.setTargetPosition(0);
+//        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        //rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftBack.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //hand.setPosition(handDefault);
 
         waitForStart();
 
         while (opModeInInit())
-            handServo.setPosition(0.62);
+//            handServo.setPosition(0.62);
 
         if (isStopRequested()) return;
 
@@ -70,62 +70,62 @@ public class TeleOp extends LinearOpMode {
             //////// Arm and wrist code //////////
 
             // Arm, wrist, hand variables
-            double armPowerUp = -.5;
-            double armPowerDown = -.4;
-            double armBrake = .5;
-            double wristUp = .7;
-            double wristDown = 0.1;
-            double handOpen = 0.12;
-            double handClose = 0.22;
-            int armVert = -680;
+//            double armPowerUp = -.5;
+//            double armPowerDown = -.4;
+//            double armBrake = .5;
+//            double wristUp = .7;
+//            double wristDown = 0.1;
+//            double handOpen = 0.12;
+//            double handClose = 0.22;
+//            int armVert = -680;
 
             if(gamepad1.a) {
                 // close hand
-                handServo.setPosition(handClose);
+//                handServo.setPosition(handClose);
 
                 // wait for good grip
                 sleep(300);
 
                 // lift arm
-                armMotor.setTargetPosition(-640);
-                armMotor.setPower(armPowerUp);
-                while (armMotor.isBusy());
-                armMotor.setPower(0);
+//                armMotor.setTargetPosition(-640);
+//                armMotor.setPower(armPowerUp);
+//                while (armMotor.isBusy());
+//                armMotor.setPower(0);
 
                 // turn wrist
-                wristServo.setPosition(wristUp);
+//                wristServo.setPosition(wristUp);
             }
 
             if (gamepad1.b) {
                 // open hand
-                handServo.setPosition(handOpen);
+//                handServo.setPosition(handOpen);
 
                 // wait for drop
                 sleep(100);
 
                 // move fast
-                armMotor.setTargetPosition(-650);
-                armMotor.setPower(armPowerDown);
-                while (armMotor.isBusy());
+//                armMotor.setTargetPosition(-650);
+//                armMotor.setPower(armPowerDown);
+//                while (armMotor.isBusy());
 
                 // turn wrist
-                wristServo.setPosition(wristDown);
+//                wristServo.setPosition(wristDown);
 
                 // move slow
-                armMotor.setTargetPosition(-10);
-                armMotor.setPower(-armPowerDown/4);
-                while (armMotor.isBusy());
-                armMotor.setPower(0);
+//                armMotor.setTargetPosition(-10);
+//                armMotor.setPower(-armPowerDown/4);
+//                while (armMotor.isBusy());
+//                armMotor.setPower(0);
 
             }
 
             // Servo code
             if(gamepad1.right_trigger != 0) {
                 // move to 0 degrees.
-                handServo.setPosition(handClose);
+//                handServo.setPosition(handClose);
             } else if (gamepad1.left_trigger != 0) {
                 // move to 180 degrees.
-                handServo.setPosition(handOpen);
+//                handServo.setPosition(handOpen);
             }
 
             //int preLaunchAngle = (int) 0;
@@ -133,14 +133,14 @@ public class TeleOp extends LinearOpMode {
 
             if(gamepad1.dpad_up && gamepad1.dpad_down && gamepad1.dpad_left && gamepad1.dpad_right) {
                 // move to 0 degrees.
-                launcherServo.setPosition(0.9);
+//                launcherServo.setPosition(0.9);
             }
 
-            telemetry.addData("launcherPos", launcherServo.getPosition());
+//            telemetry.addData("launcherPos", launcherServo.getPosition());
             telemetry.addData("status", "Running");
-            telemetry.addData("armEncoder", armMotor.getCurrentPosition());
-            telemetry.addData("armEncoderTar", armMotor.getTargetPosition());
-            telemetry.addData("handPos", handServo.getPosition());
+//            telemetry.addData("armEncoder", armMotor.getCurrentPosition());
+//            telemetry.addData("armEncoderTar", armMotor.getTargetPosition());
+//            telemetry.addData("handPos", handServo.getPosition());
             telemetry.update();
 
             idle();
