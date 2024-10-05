@@ -3,7 +3,6 @@ package edu.edina.opmodes.Test;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import edu.edina.definitions.BotBits;
 
@@ -14,6 +13,7 @@ public class TestOpMode extends LinearOpMode {
     private DcMotor leftBackDrive = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
+
     private int SelectedItem = 0;
 
     @Override
@@ -22,7 +22,6 @@ public class TestOpMode extends LinearOpMode {
         leftBackDrive  = hardwareMap.get(DcMotor.class, BotBits.BackLeftDriveMotor);
         rightFrontDrive = hardwareMap.get(DcMotor.class, BotBits.FrontRightDriveMotor);
         rightBackDrive = hardwareMap.get(DcMotor.class, BotBits.BackRightDriveMotor);
-
 
         telemetry.addData("Status", "Initialized");
         waitForStart();
