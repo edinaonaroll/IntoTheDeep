@@ -26,7 +26,7 @@ public class FlagSubsystem {
         telemetry = telemetryReference;
     }
 
-    public void FlagRaise(){
+    public void Raise(){
         telemetry.addData("Subsystem method", "FlagRaise");
 
         servo = map.get(Servo.class, BotBits.FlagServo);
@@ -43,8 +43,8 @@ public class FlagSubsystem {
         }
     }
 
-    public void FlagLower() {
-        telemetry.addData("Subsystem method", "FlagLower");
+    public void Lower() {
+        telemetry.addData("Subsystem method", "Lower");
 
         // Keep stepping down until we hit the min value.
         servo = map.get(Servo.class, BotBits.FlagServo);
