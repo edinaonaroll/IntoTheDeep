@@ -1,5 +1,6 @@
 package edu.edina.opmodes.Centerstage;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -18,6 +19,7 @@ import edu.edina.definitions.BotBits;
  */
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Autonomous23-24", group="Autonomous23-24")
+@Disabled
 public class Autonomous extends LinearOpMode {
 
     // Declare Devices
@@ -52,7 +54,7 @@ public class Autonomous extends LinearOpMode {
         rightFront = hardwareMap.dcMotor.get(BotBits.FrontRightDriveMotor);
         leftBack = hardwareMap.dcMotor.get(BotBits.BackLeftDriveMotor);
         rightBack = hardwareMap.dcMotor.get(BotBits.BackRightDriveMotor);
-        arm = hardwareMap.dcMotor.get(BotBits.ArmLiftMotor);
+        //arm = hardwareMap.dcMotor.get(BotBits.ArmLiftMotor);
         //redEye = hardwareMap.analogInput.get("redEye");
         //mrOds = hardwareMap.opticalDistanceSensor.get("mrOds");
         //mrOds.enableLed(true);

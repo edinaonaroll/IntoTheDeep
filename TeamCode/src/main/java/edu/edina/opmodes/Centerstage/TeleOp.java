@@ -1,5 +1,6 @@
 package edu.edina.opmodes.Centerstage;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import edu.edina.definitions.BotBits;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="23-24Teleop", group="23-24Teleop")
+@Disabled
 public class TeleOp extends LinearOpMode {
 
 
