@@ -3,10 +3,9 @@ package edu.edina.opmodes.Test;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import edu.edina.definitions.BotBits;
-import edu.edina.subsystems.FlagSubsystem;
 
 @TeleOp(name= "TestOpMode", group= "Test")
 public class TestOpMode extends LinearOpMode {
@@ -29,64 +28,39 @@ public class TestOpMode extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            double yInput = -gamepad1.right_stick_y; // Remember, Y stick value is reversed
+            double yDriveInput = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
             Boolean leftBumperPushed =  gamepad1.left_bumper;
 
 
             if(leftBumperPushed){
-                if(SelectedItem <= 3){
+                if(SelectedItem <= 2){
                     SelectedItem++;
 
                 }else{
-                    SelectedItem = 0;
+                    SelectedItem =0;
                 }
-
-
-                sleep(1000);
-
             }
 
-            switch(SelectedItem) {
+            switch(SelectedItem){
                 case 0:
-                    leftFrontDrive.setPower(yInput);
-                    telemetry.addData("SelectedItem", "leftFrontDrive");
-                    telemetry.addData("MotorDirection", leftFrontDrive.getDirection());
+                    leftFrontDrive.setPower(yDriveInput);
+                    telemetry.addData("SelectedItem","leftFrontDrive");
                     break;
                 case 1:
-                    rightFrontDrive.setPower(yInput);
-                    telemetry.addData("SelectedItem", "rightFrontDrive");
-                    telemetry.addData("MotorDirection", rightFrontDrive.getDirection());
+                    rightFrontDrive.setPower(yDriveInput);
+                    telemetry.addData("SelectedItem","rightFrontDrive");
                     break;
                 case 2:
-                    leftBackDrive.setPower(yInput);
-                    telemetry.addData("SelectedItem", "leftBackDrive");
-                    telemetry.addData("MotorDirection", leftBackDrive.getDirection());
+                    leftBackDrive.setPower(yDriveInput);
+                    telemetry.addData("SelectedItem","leftBackDrive");
                     break;
                 case 3:
-                    rightBackDrive.setDirection(DcMotorSimple.Direction.REVERSE);
-                    rightBackDrive.setPower(yInput);
-                    telemetry.addData("SelectedItem", "rightBackDrive");
-                    telemetry.addData("MotorDirection", rightBackDrive.getDirection());
-                    break;
-                case 4:
-                    telemetry.addData("SelectedItem", "servo");
-
-                    FlagSubsystem Flag = new FlagSubsystem(hardwareMap,telemetry);
-
-                    if (yInput > 0){
-                        telemetry.addData("Direction", "Raise");
-                        Flag.FlagRaise();
-                    } else {
-                        telemetry.addData("Direction", "Lower");
-                        Flag.FlagLower();
-                    }
-                    break;
-                default:
-                    telemetry.addData("No!  Bad!", "Selected case: " + SelectedItem);
+                    rightBackDrive.setPower(yDriveInput);
+                    telemetry.addData("SelectedItem","rightBackDrive");
                     break;
             }
 
-            telemetry.addData("right Stick Input", yInput);
+            telemetry.addData("leftStickInput",yDriveInput);
             telemetry.update();
         }
     }
