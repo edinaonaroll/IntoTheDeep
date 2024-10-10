@@ -33,14 +33,13 @@ public class TestOpMode extends LinearOpMode {
             double yInput = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
             Boolean leftBumperPushed =  gamepad1.left_bumper;
 
-
-            if(leftBumperPushed){
-                if(SelectedItem <= 3){
+            if (leftBumperPushed){
+                if (SelectedItem <= 3){
                     SelectedItem++;
-
-                }else{
+                } else {
                     SelectedItem =0;
                 }
+                sleep(1000);
             }
 
             switch(SelectedItem){
