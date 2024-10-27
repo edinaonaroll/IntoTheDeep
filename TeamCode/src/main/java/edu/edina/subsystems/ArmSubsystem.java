@@ -1,17 +1,21 @@
 package edu.edina.subsystems;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import edu.edina.definitions.BotBits;
 
-public class FlagSubsystem {
-    HardwareMap map;
-    Telemetry telemetry;
+public class ArmSubsystem {
 
-    // Define class members
-    Servo FlagServo;
+    Telemetry telemetry;
+    HardwareMap map;
+
+    private DcMotor ArmLiftMotor = null;
+    private DcMotor ArmExtendMotor = null;
+
+    private Servo GrabServo = null;
     double  position = _minPosition;
     boolean rampUp = true;
 
@@ -20,18 +24,40 @@ public class FlagSubsystem {
     static final double _maxPosition    =  1.0;     // Maximum rotational position
     static final double _minPosition    =  0.0;     // Minimum rotational position
 
-    public FlagSubsystem(HardwareMap hardwareMapReference, Telemetry telemetryReference) {
+    public ArmSubsystem(HardwareMap hardwareMapReference, Telemetry telemetryReference) {
         map = hardwareMapReference;
         telemetry = telemetryReference;
 
-        FlagServo = map.get(Servo.class, BotBits.FlagServo);
+        ArmLiftMotor = map.get(DcMotor.class, BotBits.ArmLiftMotor);
+        ArmExtendMotor = map.get(DcMotor.class, BotBits.ArmExtendMotor);
 
+        GrabServo = map.get(Servo.class, BotBits.GrabServo);
     }
 
     public void Raise(){
-        telemetry.addData("Subsystem method", "Raise");
+        telemetry.addData("Arm subsystem method", "Raise");
 
-        position = FlagServo.getPosition();
+    }
+
+    public void Lower(){
+        telemetry.addData("Arm subsystem method", "Lower");
+
+    }
+
+    public void Extend(){
+        telemetry.addData("Arm subsystem method", "Extend");
+
+    }
+
+    public void Retract(){
+        telemetry.addData("Arm subsystem method", "Retract");
+
+    }
+
+    public void Grab(){
+        telemetry.addData("Arm subsystem method", "Grab");
+
+        position = GrabServo.getPosition();
         telemetry.addData("Servo Position", position);
 
         while (position < _maxPosition){
@@ -42,13 +68,14 @@ public class FlagSubsystem {
             }
         }
 
-        FlagServo.setPosition(position);
+        GrabServo.setPosition(position);
     }
 
-    public void Lower() {
+    public void Release(){
+        telemetry.addData("Arm subsystem method", "Release");
         telemetry.addData("Subsystem method", "Lower");
 
-        position = FlagServo.getPosition();
+        position = GrabServo.getPosition();
         telemetry.addData("Servo Position", position);
 
         while (position > _minPosition) {
@@ -58,6 +85,6 @@ public class FlagSubsystem {
             }
         }
 
-        FlagServo.setPosition(position);
+        GrabServo.setPosition(position);
     }
 }
