@@ -92,8 +92,19 @@ public class TestOpMode extends LinearOpMode {
 
                     break;
                 case 6:
-                    ArmLiftMotor.setPower(yInput);
+                    if(yInput>0){
+                        ArmLiftMotor.setPower(yInput/2);
+                        ArmLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+                    }else if(yInput<0){
+                        ArmLiftMotor.setPower(yInput/4);
+                        ArmLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+                    }else if(yInput==0){
+                        ArmLiftMotor.setPower(.01);
+                        ArmLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                    }
                     telemetry.addData("SelectedItem","Arm Lift Motor");
+                    telemetry.addData("MotorZeroPowerBehavior",ArmLiftMotor.getZeroPowerBehavior());
+                    telemetry.addData("Power", ArmLiftMotor.getPower());
                     break;
                 case 7:
                     ArmExtendMotor.setPower(yInput);

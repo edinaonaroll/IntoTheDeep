@@ -1,6 +1,7 @@
 package edu.edina.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -34,27 +35,40 @@ public class ArmSubsystem {
         GrabServo = map.get(Servo.class, BotBits.GrabServo);
     }
 
-    public void Raise(){
-        telemetry.addData("Arm subsystem method", "Raise");
+    public void MoveArm(double yInput, Boolean SlowMode){
+        telemetry.addData("Arm subsystem method", "Moving");
+        double DefaultPowerFactor = 2;
 
+        if (SlowMode) {
+            DefaultPowerFactor = DefaultPowerFactor * 2;
+        }
+
+        if (yInput>0) {
+            ArmLiftMotor.setPower(yInput/DefaultPowerFactor);
+            ArmLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        } else if (yInput<0) {
+            ArmLiftMotor.setPower(yInput/(DefaultPowerFactor/2));
+            ArmLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        } else if (yInput==0) {
+            ArmLiftMotor.setPower(.01);
+            ArmLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        }
+        telemetry.addData("SelectedItem","Arm Lift Motor");
+        telemetry.addData("MotorZeroPowerBehavior",ArmLiftMotor.getZeroPowerBehavior());
+        telemetry.addData("Power", ArmLiftMotor.getPower());
     }
 
-    public void Lower(){
-        telemetry.addData("Arm subsystem method", "Lower");
-
-    }
-
-    public void Extend(){
+    public void Extend () {
         telemetry.addData("Arm subsystem method", "Extend");
 
     }
 
-    public void Retract(){
+    public void Retract () {
         telemetry.addData("Arm subsystem method", "Retract");
 
     }
 
-    public void Grab(){
+    public void Grab () {
         telemetry.addData("Arm subsystem method", "Grab");
 
         position = GrabServo.getPosition();

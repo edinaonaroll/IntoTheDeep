@@ -53,7 +53,7 @@ import edu.edina.definitions.BotBits;
  */
 
 @TeleOp(name="Basic: Iterative OpMode", group="Iterative OpMode")
-//@Disabled
+@Disabled
 public class BasicOpMode_Iterative extends OpMode
 {
     // Declare OpMode members.

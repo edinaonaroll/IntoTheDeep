@@ -1,5 +1,6 @@
 package edu.edina.opmodes.TeleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -7,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import edu.edina.definitions.BotBits;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="24-25Teleop", group="24-25Teleop")
+@Disabled
 public class BasicTeleOp extends LinearOpMode {
 
 

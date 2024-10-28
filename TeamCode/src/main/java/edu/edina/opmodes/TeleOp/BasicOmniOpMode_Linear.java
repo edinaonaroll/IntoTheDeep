@@ -29,6 +29,7 @@
 
 package edu.edina.opmodes.TeleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -65,7 +66,7 @@ import edu.edina.definitions.BotBits;
  */
 
 @TeleOp(name="Basic: Omni Linear OpMode", group="Linear OpMode")
-//@Disabled
+@Disabled
 public class BasicOmniOpMode_Linear extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
