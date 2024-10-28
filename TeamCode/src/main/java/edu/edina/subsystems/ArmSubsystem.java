@@ -39,7 +39,7 @@ public class ArmSubsystem {
 
         telemetry.addData("Arm subsystem method", "Moving");
 
-        double DefaultPowerFactor = 2;
+        double DefaultPowerFactor = 4;
         // Flip value so that the arm moves in the expected direction
         yInput = -yInput;
 
@@ -47,11 +47,11 @@ public class ArmSubsystem {
             DefaultPowerFactor = DefaultPowerFactor * 2;
         }
 
-        if (yInput>0) {
+        if (yInput<0) {
             ArmLiftMotor.setPower(yInput/DefaultPowerFactor);
             ArmLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        } else if (yInput<0) {
-            ArmLiftMotor.setPower(yInput/(DefaultPowerFactor/2));
+        } else if (yInput>0) {
+            ArmLiftMotor.setPower(yInput/(DefaultPowerFactor/3));
             ArmLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         } else if (yInput==0) {
             ArmLiftMotor.setPower(.01);
