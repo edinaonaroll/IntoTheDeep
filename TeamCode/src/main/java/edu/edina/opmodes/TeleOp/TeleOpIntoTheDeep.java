@@ -2,10 +2,8 @@ package edu.edina.opmodes.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import edu.edina.definitions.BotBits;
 import edu.edina.subsystems.ArmSubsystem;
 import edu.edina.subsystems.ChassisSubsystem;
 
@@ -41,17 +39,16 @@ public class TeleOpIntoTheDeep extends LinearOpMode
 
         while (opModeIsActive())
         {
-
-            double xDriveInput = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
-            double yDriveInput = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
+            double xDriveInput = gamepad1.left_stick_x;
+            double yDriveInput = gamepad1.left_stick_y;
             double turnInput = gamepad1.right_stick_x;
-            Boolean DriveSlowMode = gamepad1.a;
+            Boolean driveSlowMode = gamepad1.a;
 
-            Boolean ArmSlowmode = gamepad2.a;
-            double ArmLiftInput = -gamepad2.left_stick_y;
+            Boolean armSlowmode = gamepad2.a;
+            double armLiftInput = gamepad2.left_stick_y;
 
-            armsubsystem.MoveArm(ArmLiftInput, ArmSlowmode);
-            chassisSubsystem.Drive(xDriveInput, yDriveInput, turnInput, DriveSlowMode);
+            armsubsystem.MoveArm(armLiftInput, armSlowmode);
+            chassisSubsystem.Drive(xDriveInput, yDriveInput, turnInput, driveSlowMode);
 //
 //            double driveInputAngle = Math.hypot(xDriveInput, yDriveInput);
 //            double robotAngle = Math.atan2(yDriveInput, xDriveInput) - Math.PI / 4;

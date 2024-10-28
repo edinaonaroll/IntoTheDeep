@@ -36,8 +36,12 @@ public class ArmSubsystem {
     }
 
     public void MoveArm(double yInput, Boolean SlowMode){
+
         telemetry.addData("Arm subsystem method", "Moving");
+
         double DefaultPowerFactor = 2;
+        // Flip value so that the arm moves in the expected direction
+        yInput = -yInput;
 
         if (SlowMode) {
             DefaultPowerFactor = DefaultPowerFactor * 2;
