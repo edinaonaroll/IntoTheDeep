@@ -6,36 +6,28 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import edu.edina.subsystems.ArmSubsystem;
 import edu.edina.subsystems.ChassisSubsystem;
+import edu.edina.subsystems.FlagSubsystem;
 
 @TeleOp(name= "IntoTheDeepTeleOp", group= "TeleOp")
 public class TeleOpIntoTheDeep extends LinearOpMode
 {
 
     private ElapsedTime runtime = new ElapsedTime();
-//    private DcMotor leftFrontDrive = null;
-//    private DcMotor leftBackDrive = null;
-//    private DcMotor rightFrontDrive = null;
-//    private DcMotor rightBackDrive = null;
 
     @Override
     public void runOpMode() {
 
         ArmSubsystem armsubsystem = new ArmSubsystem (hardwareMap, telemetry);
         ChassisSubsystem chassisSubsystem = new ChassisSubsystem (hardwareMap, telemetry);
+        FlagSubsystem flagSubsystem = new FlagSubsystem (hardwareMap, telemetry);
 
-//        leftFrontDrive  = hardwareMap.get(DcMotor.class, BotBits.FrontLeftDriveMotor);
-//        leftBackDrive  = hardwareMap.get(DcMotor.class, BotBits.BackLeftDriveMotor);
-//        rightFrontDrive = hardwareMap.get(DcMotor.class, BotBits.FrontRightDriveMotor);
-//        rightBackDrive = hardwareMap.get(DcMotor.class, BotBits.BackRightDriveMotor);
-//
-//        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-//        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-//        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-//        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        flagSubsystem.Lower();
 
         telemetry.addData("Status", "Initialized");
 
         waitForStart();
+
+        flagSubsystem.Raise();
 
         while (opModeIsActive())
         {
@@ -44,30 +36,19 @@ public class TeleOpIntoTheDeep extends LinearOpMode
             double turnInput = gamepad1.right_stick_x;
             Boolean driveSlowMode = gamepad1.a;
 
-            Boolean armSlowmode = gamepad2.a;
             double armLiftInput = gamepad2.left_stick_y;
+            Boolean armSlowmode = gamepad2.a;
 
             armsubsystem.MoveArm(armLiftInput, armSlowmode);
             chassisSubsystem.Drive(xDriveInput, yDriveInput, turnInput, driveSlowMode);
-//
-//            double driveInputAngle = Math.hypot(xDriveInput, yDriveInput);
-//            double robotAngle = Math.atan2(yDriveInput, xDriveInput) - Math.PI / 4;
-//
-//            final double frontLeftMotorPower = driveInputAngle * Math.cos(robotAngle) + turnInput;
-//            final double backLeftMotorPower = driveInputAngle * Math.sin(robotAngle) - turnInput;
-//            final double frontRightMotorPower = driveInputAngle * Math.sin(robotAngle) + turnInput;
-//            final double backRightMotorPower = driveInputAngle * Math.cos(robotAngle) - turnInput;
-//
-//            leftFrontDrive.setPower(frontLeftMotorPower);
-//            leftBackDrive.setPower(backLeftMotorPower);
-//            rightFrontDrive.setPower(frontRightMotorPower);
-//            rightBackDrive.setPower(backRightMotorPower);
 
             telemetry.addData("status", "Running");
             telemetry.update();
 
             idle();
         }
+
+        flagSubsystem.Lower();
 
         runtime.reset();
     }

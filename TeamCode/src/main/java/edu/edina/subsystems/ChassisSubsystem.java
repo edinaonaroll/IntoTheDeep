@@ -34,7 +34,11 @@ public class ChassisSubsystem {
     public void Drive (double xDriveInput, double yDriveInput, double turnInput, boolean Slowmode) {
 
         // flip sign because input needs to be the other way for sensible driving
-        yDriveInput = -yDriveInput;
+        if (Slowmode){
+            yDriveInput = -yDriveInput / 2;
+        } else {
+            yDriveInput = -yDriveInput;
+        }
 
         // Counteract imperfect strafing
         xDriveInput = xDriveInput * 1.1;

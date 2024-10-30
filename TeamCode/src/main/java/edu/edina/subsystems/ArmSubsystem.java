@@ -62,7 +62,7 @@ public class ArmSubsystem {
             ArmLiftMotor.setPower(.01);
             ArmLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
-        
+
         telemetry.addData("SelectedItem","Arm Lift Motor");
         telemetry.addData("MotorZeroPowerBehavior",ArmLiftMotor.getZeroPowerBehavior());
         telemetry.addData("Power", ArmLiftMotor.getPower());
