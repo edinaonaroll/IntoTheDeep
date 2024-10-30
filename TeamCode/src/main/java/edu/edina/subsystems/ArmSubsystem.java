@@ -39,24 +39,30 @@ public class ArmSubsystem {
 
         telemetry.addData("Arm subsystem method", "Moving");
 
-        double DefaultPowerFactor = 4;
+        double DefaultPowerFactor = 2;
+        double PowerFactor = 0;
         // Flip value so that the arm moves in the expected direction
         yInput = -yInput;
 
         if (SlowMode) {
-            DefaultPowerFactor = DefaultPowerFactor * 2;
+            PowerFactor = DefaultPowerFactor * 2;
+        } else {
+            PowerFactor = DefaultPowerFactor;
         }
 
-        if (yInput<0) {
-            ArmLiftMotor.setPower(yInput/DefaultPowerFactor);
+        if (yInput > 0) {
+            ArmLiftMotor.setPower(yInput/PowerFactor);
             ArmLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        } else if (yInput>0) {
-            ArmLiftMotor.setPower(yInput/(DefaultPowerFactor/3));
+        } else if (yInput < 0) {
+            ArmLiftMotor.setPower(yInput/PowerFactor);
             ArmLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        } else if (yInput==0) {
+        } else if (yInput == 0) {
+            // if the arm is coming down, brake will stop it from going *UP*.
+            // briefly, set the power to 'going up', so that brake will keep it from going down.
             ArmLiftMotor.setPower(.01);
             ArmLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
+
         telemetry.addData("SelectedItem","Arm Lift Motor");
         telemetry.addData("MotorZeroPowerBehavior",ArmLiftMotor.getZeroPowerBehavior());
         telemetry.addData("Power", ArmLiftMotor.getPower());
