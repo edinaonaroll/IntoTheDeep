@@ -8,7 +8,7 @@ import edu.edina.subsystems.ArmSubsystem;
 import edu.edina.subsystems.ChassisSubsystem;
 import edu.edina.subsystems.FlagSubsystem;
 
-@TeleOp(name= "BasicAutomonous", group= "Automonous")
+@TeleOp(name= "BasicAutonomous", group= "Autonomous")
 public class BasicAutonomous extends LinearOpMode{
 
     private ElapsedTime runtime = new ElapsedTime();
