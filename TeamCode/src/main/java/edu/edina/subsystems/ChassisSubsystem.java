@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import edu.edina.definitions.BotBits;
+import edu.edina.definitions.MotorSpeed;
+import edu.edina.definitions.SubsystemInitMode;
 
 public class ChassisSubsystem {
 
@@ -15,10 +17,16 @@ public class ChassisSubsystem {
     private DcMotor backLeftDrive = null;
     private DcMotor frontRightDrive = null;
     private DcMotor backRightDrive = null;
-    
 
+    private int frontLeftDriveMotorPosition = 0;
+    private int backLeftDriveMotorPosition = 0;
+    private int frontRightDriveMotorPosition = 0;
+    private int backRightDriveMotorPosition = 0;
 
-    public ChassisSubsystem(HardwareMap hardwareMapReference, Telemetry telemetryReference) {
+    private double clicksPerInch = 52; // 54 best for slow speed
+    private double clicksPerDeg = 14; // empirically measured
+
+    public ChassisSubsystem(HardwareMap hardwareMapReference, Telemetry telemetryReference, SubsystemInitMode initMode) {
         map = hardwareMapReference;
         telemetry = telemetryReference;
 
@@ -31,9 +39,13 @@ public class ChassisSubsystem {
         backLeftDrive.setDirection(DcMotor.Direction.FORWARD);
         frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive.setDirection(DcMotor.Direction.REVERSE);
+
+        if (initMode == SubsystemInitMode.Autonomous){
+            InitAutonomous();
+        }
     }
 
-    public void Drive (double xDriveInput, double yDriveInput, double turnInput, boolean Slowmode) {
+    public void DriveByController(double xDriveInput, double yDriveInput, double turnInput, boolean Slowmode) {
 
         // flip sign because input needs to be the other way for sensible driving
         if (Slowmode){
@@ -61,5 +73,77 @@ public class ChassisSubsystem {
         telemetry.addData("xDriveInput", xDriveInput);
         telemetry.addData("yDriveInput", yDriveInput);
         telemetry.addData("turnInput", turnInput);
+    }
+
+    private void InitAutonomous(){
+        frontLeftDrive.setTargetPosition(0);
+        backLeftDrive.setTargetPosition(0);
+        frontRightDrive.setTargetPosition(0);
+        backRightDrive.setTargetPosition(0);
+
+        frontLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        frontLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    public void DriveForward(int Inches, double speed){
+        GetMotorPositions();
+
+        // calculate new targets
+        frontLeftDriveMotorPosition += Inches * clicksPerInch;
+        frontRightDriveMotorPosition += Inches * clicksPerInch;
+        backLeftDriveMotorPosition += Inches * clicksPerInch;
+        backRightDriveMotorPosition += Inches * clicksPerInch;
+
+        SetMotorSpeed(speed);
+        SetMotorPositions();
+        WriteTelemetry("Move Forward");
+        SetMotorSpeed(MotorSpeed.Percent_0);
+    }
+
+    private void GetMotorPositions(){
+        frontLeftDriveMotorPosition = frontLeftDrive.getCurrentPosition();
+        backLeftDriveMotorPosition = backLeftDrive.getCurrentPosition();
+        frontRightDriveMotorPosition = frontRightDrive.getCurrentPosition();
+        backRightDriveMotorPosition = backRightDrive.getCurrentPosition();
+    }
+
+    private void SetMotorPositions() {
+        frontLeftDrive.setTargetPosition(frontLeftDriveMotorPosition);
+        backLeftDrive.setTargetPosition(backLeftDriveMotorPosition);
+        frontRightDrive.setTargetPosition(frontRightDriveMotorPosition);
+        backRightDrive.setTargetPosition(backRightDriveMotorPosition);
+    }
+
+    private void SetMotorSpeed(double speed) {
+        frontLeftDrive.setPower(speed);
+        backLeftDrive.setPower(speed);
+        frontRightDrive.setPower(speed);
+        backRightDrive.setPower(speed);
+    }
+
+    private void WriteTelemetry(String action){
+
+        while (frontLeftDrive.isBusy() && backLeftDrive.isBusy() &&
+                frontRightDrive.isBusy() && backRightDrive.isBusy()) {
+            telemetry.addLine(action);
+            telemetry.addData("Target", "%7d :%7d",
+                    frontLeftDriveMotorPosition,
+                    backLeftDriveMotorPosition,
+                    frontRightDriveMotorPosition,
+                    backRightDriveMotorPosition);
+            telemetry.addData("Actual", "%7d :%7d",
+                    frontLeftDrive.getCurrentPosition(),
+                    backLeftDrive.getCurrentPosition(),
+                    frontRightDrive.getCurrentPosition(),
+                    backRightDrive.getCurrentPosition());
+            telemetry.update();
+        }
     }
 }
