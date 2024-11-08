@@ -126,10 +126,10 @@ public class ChassisSubsystem {
         GetMotorPositions();
 
         // calculate new targets
-        frontLeftDriveMotorPosition += Inches * clicksPerInch;
+        frontLeftDriveMotorPosition -= Inches * clicksPerInch;
         frontRightDriveMotorPosition += Inches * clicksPerInch;
         backLeftDriveMotorPosition += Inches * clicksPerInch;
-        backRightDriveMotorPosition += Inches * clicksPerInch;
+        backRightDriveMotorPosition -= Inches * clicksPerInch;
 
         SetMotorSpeed(speed);
         SetMotorPositions();
@@ -142,9 +142,9 @@ public class ChassisSubsystem {
 
         // calculate new targets
         frontLeftDriveMotorPosition += Inches * clicksPerInch;
-        frontRightDriveMotorPosition += Inches * clicksPerInch;
-        backLeftDriveMotorPosition += Inches * clicksPerInch;
-        backRightDriveMotorPosition += Inches * clicksPerInch;
+        frontRightDriveMotorPosition -= Inches * clicksPerInch;
+        backLeftDriveMotorPosition -= Inches * clicksPerInch;
+        backRightDriveMotorPosition+= Inches * clicksPerInch;
 
         SetMotorSpeed(speed);
         SetMotorPositions();
