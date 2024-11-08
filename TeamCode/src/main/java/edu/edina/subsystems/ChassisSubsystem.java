@@ -107,6 +107,51 @@ public class ChassisSubsystem {
         SetMotorSpeed(MotorSpeed.Percent_0);
     }
 
+    public void DriveBack(int Inches, double speed){
+        GetMotorPositions();
+
+        // calculate new targets
+        frontLeftDriveMotorPosition += Inches * clicksPerInch;
+        frontRightDriveMotorPosition += Inches * clicksPerInch;
+        backLeftDriveMotorPosition += Inches * clicksPerInch;
+        backRightDriveMotorPosition += Inches * clicksPerInch;
+
+        SetMotorSpeed(speed);
+        SetMotorPositions();
+        WriteTelemetry("Move Forward");
+        SetMotorSpeed(MotorSpeed.Percent_0);
+    }
+
+    public void DriveLeft(int Inches, double speed){
+        GetMotorPositions();
+
+        // calculate new targets
+        frontLeftDriveMotorPosition += Inches * clicksPerInch;
+        frontRightDriveMotorPosition += Inches * clicksPerInch;
+        backLeftDriveMotorPosition += Inches * clicksPerInch;
+        backRightDriveMotorPosition += Inches * clicksPerInch;
+
+        SetMotorSpeed(speed);
+        SetMotorPositions();
+        WriteTelemetry("Move Forward");
+        SetMotorSpeed(MotorSpeed.Percent_0);
+    }
+
+    public void DriveRight(int Inches, double speed){
+        GetMotorPositions();
+
+        // calculate new targets
+        frontLeftDriveMotorPosition += Inches * clicksPerInch;
+        frontRightDriveMotorPosition += Inches * clicksPerInch;
+        backLeftDriveMotorPosition += Inches * clicksPerInch;
+        backRightDriveMotorPosition += Inches * clicksPerInch;
+
+        SetMotorSpeed(speed);
+        SetMotorPositions();
+        WriteTelemetry("Move Forward");
+        SetMotorSpeed(MotorSpeed.Percent_0);
+    }
+
     private void GetMotorPositions(){
         frontLeftDriveMotorPosition = frontLeftDrive.getCurrentPosition();
         backLeftDriveMotorPosition = backLeftDrive.getCurrentPosition();
