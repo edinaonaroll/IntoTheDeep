@@ -111,6 +111,7 @@ public class ChassisSubsystem {
 
     public void DriveForward(int Inches, double speed){
         GetMotorPositions();
+        SetMotorDirection(DcMotor.Direction.FORWARD);
 
         // calculate new targets
         frontLeftDriveMotorPosition += Inches * clicksPerInch;
@@ -126,6 +127,7 @@ public class ChassisSubsystem {
 
     public void DriveBack(int Inches, double speed){
         GetMotorPositions();
+        SetMotorDirection(DcMotor.Direction.REVERSE);
 
         // calculate new targets
         frontLeftDriveMotorPosition += Inches * clicksPerInch;
@@ -141,6 +143,7 @@ public class ChassisSubsystem {
 
     public void DriveLeft(int Inches, double speed){
         GetMotorPositions();
+        SetMotorDirection(DcMotorSimple.Direction.FORWARD);
 
         // calculate new targets
         frontLeftDriveMotorPosition -= Inches * clicksPerInch;
@@ -156,7 +159,8 @@ public class ChassisSubsystem {
 
     public void DriveRight(int Inches, double speed){
         GetMotorPositions();
-
+        SetMotorDirection(DcMotorSimple.Direction.FORWARD);
+        
         // calculate new targets
         frontLeftDriveMotorPosition += Inches * clicksPerInch;
         frontRightDriveMotorPosition -= Inches * clicksPerInch;
