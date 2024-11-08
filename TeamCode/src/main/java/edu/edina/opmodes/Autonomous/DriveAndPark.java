@@ -17,7 +17,7 @@ public class DriveAndPark extends LinearOpMode{
 
     @Override
     public void runOpMode() {
-
+        
         ArmSubsystem armsubsystem = new ArmSubsystem(hardwareMap, telemetry);
         ChassisSubsystem chassisSubsystem = new ChassisSubsystem(hardwareMap, telemetry, SubsystemInitMode.Autonomous);
         FlagSubsystem flagSubsystem = new FlagSubsystem(hardwareMap, telemetry);
@@ -30,10 +30,12 @@ public class DriveAndPark extends LinearOpMode{
 
         flagSubsystem.Raise();
 
-        while (opModeIsActive()) {
+        //while (opModeIsActive()) {
             // drive forward two inches
             chassisSubsystem.DriveForward(2, MotorSpeed.Percent_50);
-        }
+        //    break;
+        //}
+
 
         flagSubsystem.Lower();
 

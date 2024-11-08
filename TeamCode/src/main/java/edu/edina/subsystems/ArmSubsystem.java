@@ -35,17 +35,18 @@ public class ArmSubsystem {
         GrabServo = map.get(Servo.class, BotBits.GrabServo);
     }
 
-    public void MoveArm(double yInput, Boolean SlowMode){
+    public void MoveArm(double yInput, boolean SlowMode){
 
         telemetry.addData("Arm subsystem method", "Moving");
+        telemetry.addData("SlowMode",SlowMode);
 
-        double DefaultPowerFactor = 2;
+        double DefaultPowerFactor = 12;
         double PowerFactor = 0;
         // Flip value so that the arm moves in the expected direction
         yInput = -yInput;
 
         if (SlowMode) {
-            PowerFactor = DefaultPowerFactor * 2;
+            PowerFactor = DefaultPowerFactor * 6;
         } else {
             PowerFactor = DefaultPowerFactor;
         }
