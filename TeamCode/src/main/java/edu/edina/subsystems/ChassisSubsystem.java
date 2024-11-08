@@ -1,6 +1,7 @@
 package edu.edina.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -40,9 +41,25 @@ public class ChassisSubsystem {
         frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive.setDirection(DcMotor.Direction.REVERSE);
 
+        SetMotorDirection(DcMotor.Direction.FORWARD);
+        
         if (initMode == SubsystemInitMode.Autonomous){
             InitAutonomous();
         }
+    }
+
+    public void SetMotorDirection(DcMotor.Direction direction) {
+       if(direction==DcMotor.Direction.FORWARD){
+           frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
+           backLeftDrive.setDirection(DcMotor.Direction.FORWARD);
+           frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
+           backRightDrive.setDirection(DcMotor.Direction.REVERSE);
+       } else {
+           frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+           backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+           frontRightDrive.setDirection(DcMotor.Direction.REVERSE);
+           backRightDrive.setDirection(DcMotor.Direction.FORWARD);
+       }
     }
 
     public void DriveByController(double xDriveInput, double yDriveInput, double turnInput, boolean Slowmode) {
