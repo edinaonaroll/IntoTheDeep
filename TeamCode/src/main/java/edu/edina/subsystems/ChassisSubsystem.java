@@ -169,6 +169,36 @@ public class ChassisSubsystem {
         SetMotorSpeed(MotorSpeed.Percent_0);
     }
 
+    public void TurnLeft(int degrees, double speed){
+        GetMotorPositions();
+
+        // calculate new target
+        frontLeftDriveMotorPosition -= degrees * clicksPerInch;
+        frontRightDriveMotorPosition += degrees * clicksPerInch;
+        backLeftDriveMotorPosition -= degrees * clicksPerInch;
+        backRightDriveMotorPosition += degrees * clicksPerInch;
+
+        SetMotorSpeed(speed);
+        SetMotorPositions();
+        WriteTelemetry("Move Forward");
+        SetMotorSpeed(MotorSpeed.Percent_0);
+    }
+
+    public void TurnRight(int degrees, double speed){
+        GetMotorPositions();
+
+        // calculate new targets
+        frontLeftDriveMotorPosition += degrees * clicksPerInch;
+        frontRightDriveMotorPosition -= degrees * clicksPerInch;
+        backLeftDriveMotorPosition += degrees * clicksPerInch;
+        backRightDriveMotorPosition -= degrees * clicksPerInch;
+
+        SetMotorSpeed(speed);
+        SetMotorPositions();
+        WriteTelemetry("Move Forward");
+        SetMotorSpeed(MotorSpeed.Percent_0);
+    }
+
     private void GetMotorPositions(){
         frontLeftDriveMotorPosition = frontLeftDrive.getCurrentPosition();
         backLeftDriveMotorPosition = backLeftDrive.getCurrentPosition();
