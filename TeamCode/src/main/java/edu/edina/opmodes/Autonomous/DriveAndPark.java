@@ -30,12 +30,8 @@ public class DriveAndPark extends LinearOpMode{
 
         flagSubsystem.Raise();
 
-        //while (opModeIsActive()) {
-            // drive forward two inches
-            chassisSubsystem.DriveForward(2, MotorSpeed.Percent_50);
-        //    break;
-        //}
-
+        // drive forward two inches
+        chassisSubsystem.DriveForward(2, MotorSpeed.Percent_50);
 
         flagSubsystem.Lower();
 
