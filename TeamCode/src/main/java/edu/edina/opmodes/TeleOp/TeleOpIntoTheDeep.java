@@ -45,10 +45,9 @@ public class TeleOpIntoTheDeep extends LinearOpMode
             double yInput = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
             boolean buttonPushed = (gamepad2.y);
 
-            if (buttonPushed) {
-                ArmExtendMotor.setPower(1);
-                ArmExtendMotor.
-                    break;
+//            if (buttonPushed) {
+//                ArmExtendMotor.setPower(1);
+//                ArmExtendMotor.
             double armLiftInput = gamepad2.left_stick_y;
             boolean armSlowMode = gamepad2.a;
 
