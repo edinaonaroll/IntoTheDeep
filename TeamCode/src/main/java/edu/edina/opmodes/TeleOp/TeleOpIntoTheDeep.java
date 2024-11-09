@@ -35,12 +35,12 @@ public class TeleOpIntoTheDeep extends LinearOpMode
             double xDriveInput = gamepad1.left_stick_x;
             double yDriveInput = gamepad1.left_stick_y;
             double turnInput = gamepad1.right_stick_x;
-            Boolean driveSlowMode = gamepad1.a;
+            boolean driveSlowMode = gamepad1.a;
 
             double armLiftInput = gamepad2.left_stick_y;
-            Boolean armSlowmode = gamepad2.a;
+            boolean armSlowMode = gamepad2.a;
 
-            armsubsystem.MoveArm(armLiftInput, armSlowmode);
+            armsubsystem.MoveArm(armLiftInput, armSlowMode);
             chassisSubsystem.DriveByController(xDriveInput, yDriveInput, turnInput, driveSlowMode);
 
             telemetry.addData("status", "Running");
