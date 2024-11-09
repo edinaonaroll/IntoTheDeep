@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import edu.edina.definitions.BotBits;
 import edu.edina.subsystems.ArmSubsystem;
@@ -16,6 +17,9 @@ public class TestOpMode extends LinearOpMode {
     private DcMotor leftBackDrive = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
+    private TouchSensor TouchSensorRight = null;
+    private TouchSensor TouchSensorLeft = null;
+    private TouchSensor TouchSensorMiddle = null;
 
     private DcMotor ArmLiftMotor = null;
     private DcMotor ArmExtendMotor = null;
@@ -29,6 +33,11 @@ public class TestOpMode extends LinearOpMode {
         leftBackDrive  = hardwareMap.get(DcMotor.class, BotBits.BackLeftDriveMotor);
         rightFrontDrive = hardwareMap.get(DcMotor.class, BotBits.FrontRightDriveMotor);
         rightBackDrive = hardwareMap.get(DcMotor.class, BotBits.BackRightDriveMotor);
+
+//TODO:  Replace literal text with reference to BotBits class
+        TouchSensorRight = hardwareMap.get(TouchSensor.class,  "Touch Sensor Right");
+        TouchSensorLeft = hardwareMap.get(TouchSensor.class, "Touch Sensor Left");
+        TouchSensorMiddle = hardwareMap.get(TouchSensor.class, "Touch Sensor Middle");
 
         leftFrontDrive.setDirection(DcMotorSimple.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -61,43 +70,16 @@ public class TestOpMode extends LinearOpMode {
                 sleep(300);
             }
 
+            telemetry.addData("leftStickInput", yInput);
+
             switch (SelectedItem){
-                case 5:
-                    leftFrontDrive.setPower(yInput);
-                    telemetry.addData("SelectedItem","leftFrontDrive");
-                    break;
-                case 2:
-                    rightFrontDrive.setPower(yInput);
-                    telemetry.addData("SelectedItem","rightFrontDrive");
-                    break;
-                case 3:
-                    leftBackDrive.setPower(yInput);
-                    telemetry.addData("SelectedItem","leftBackDrive");
-                    break;
-                case 4:
-                    rightBackDrive.setPower(yInput);
-                    telemetry.addData("SelectedItem","rightBackDrive");
-                    break;
                 case 1:
-                    telemetry.addData("SelectedItem","Flag Servo");
-
-                    if (yInput > 0){
-                        telemetry.addData("Action","Raise flag");
-                        flag.Raise();
-                    }
-                    else if (yInput < 0) {
-                        telemetry.addData("Action","Lower flag");
-                        flag.Lower();
-                    }
-
-                    break;
-                case 6:
                     if(yInput>0){
                         ArmLiftMotor.setPower(yInput/2);
-                        ArmLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+                        ArmLiftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
                     }else if(yInput<0){
                         ArmLiftMotor.setPower(yInput/4);
-                        ArmLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+                        ArmLiftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
                     }else if(yInput==0){
                         ArmLiftMotor.setPower(.01);
                         ArmLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -106,11 +88,12 @@ public class TestOpMode extends LinearOpMode {
                     telemetry.addData("MotorZeroPowerBehavior",ArmLiftMotor.getZeroPowerBehavior());
                     telemetry.addData("Power", ArmLiftMotor.getPower());
                     break;
-                case 7:
+                case 2:
                     ArmExtendMotor.setPower(yInput);
                     telemetry.addData("SelectedItem","Arm Extend Motor");
+                    telemetry.addData("Power", ArmExtendMotor.getPower());
                     break;
-                case 8:
+                case 3:
                     telemetry.addData("SelectedItem","Grab Servo");
 
                      if (yInput > 0){
@@ -123,12 +106,55 @@ public class TestOpMode extends LinearOpMode {
                     }
 
                     break;
+                case 4:
+                    telemetry.addData("SelectedItem","Flag Servo");
+
+                    if (yInput > 0){
+                        telemetry.addData("Action","Raise flag");
+                        flag.Raise();
+                    }
+                    else if (yInput < 0) {
+                        telemetry.addData("Action","Lower flag");
+                        flag.Lower();
+                    }
+
+                    break;
+                case 5:
+                    leftFrontDrive.setPower(yInput);
+                    telemetry.addData("SelectedItem","leftFrontDrive");
+                    break;
+                case 6:
+                    rightFrontDrive.setPower(yInput);
+                    telemetry.addData("SelectedItem","rightFrontDrive");
+                    break;
+                case 7:
+                    leftBackDrive.setPower(yInput);
+                    telemetry.addData("SelectedItem","leftBackDrive");
+                    break;
+                case 8:
+                    rightBackDrive.setPower(yInput);
+                    telemetry.addData("SelectedItem","rightBackDrive");
+                    break;
                 default:
                     telemetry.addData("No! Bad!", "SelectedItem not supported: " + SelectedItem);
                     break;
             }
 
-            telemetry.addData("leftStickInput", yInput);
+            if(TouchSensorRight.isPressed()){
+                telemetry.clear();
+                telemetry.addData("Touch sensor", "You touched the right");
+            }
+
+            if(TouchSensorMiddle.isPressed()){
+                //TODO:  Clear telemetry (see above)
+                telemetry.addData("Touch sensor","You touched the middle");
+            }
+
+            if(TouchSensorLeft.isPressed()){
+                //TODO:  Clear telemetry (see above)
+                telemetry.addData("Touch sensor","You touched the left");
+            }
+
             telemetry.update();
         }
     }

@@ -35,17 +35,18 @@ public class ArmSubsystem {
         GrabServo = map.get(Servo.class, BotBits.GrabServo);
     }
 
-    public void MoveArm(double yInput, Boolean SlowMode){
+    public void MoveArm(double yInput, boolean SlowMode){
 
         telemetry.addData("Arm subsystem method", "Moving");
+        telemetry.addData("SlowMode",SlowMode);
 
-        double DefaultPowerFactor = 2;
+        double DefaultPowerFactor = 12;
         double PowerFactor = 0;
         // Flip value so that the arm moves in the expected direction
         yInput = -yInput;
 
         if (SlowMode) {
-            PowerFactor = DefaultPowerFactor * 2;
+            PowerFactor = DefaultPowerFactor * 6;
         } else {
             PowerFactor = DefaultPowerFactor;
         }
@@ -57,11 +58,19 @@ public class ArmSubsystem {
             ArmLiftMotor.setPower(yInput/PowerFactor);
             ArmLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         } else if (yInput == 0) {
+//TODO:  only activate this block if the middle button is NOT pressed
+
             // if the arm is coming down, brake will stop it from going *UP*.
             // briefly, set the power to 'going up', so that brake will keep it from going down.
             ArmLiftMotor.setPower(.01);
             ArmLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
+// TODO:  Add another 'else if' for if the middle button is pressed.  This tells us that
+//  the arm is going down and we need to stop it.
+//  In this case, we need to stop and ignore 'down' input from the controller.
+//  If the button is pressed, what should the behavior be if the input is 'up' vs. 'down'?
+
+
 
         telemetry.addData("SelectedItem","Arm Lift Motor");
         telemetry.addData("MotorZeroPowerBehavior",ArmLiftMotor.getZeroPowerBehavior());

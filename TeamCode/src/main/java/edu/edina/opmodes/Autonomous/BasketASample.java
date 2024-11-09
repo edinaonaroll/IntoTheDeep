@@ -4,12 +4,14 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import edu.edina.definitions.MotorSpeed;
+import edu.edina.definitions.SubsystemInitMode;
 import edu.edina.subsystems.ArmSubsystem;
 import edu.edina.subsystems.ChassisSubsystem;
 import edu.edina.subsystems.FlagSubsystem;
 
-@TeleOp(name= "BasicAutonomous", group= "Autonomous")
-public class BasicAutonomous extends LinearOpMode{
+@TeleOp(name= "BasketASample", group= "Autonomous")
+public class BasketASample extends LinearOpMode{
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -17,7 +19,7 @@ public class BasicAutonomous extends LinearOpMode{
     public void runOpMode() {
 
         ArmSubsystem armsubsystem = new ArmSubsystem(hardwareMap, telemetry);
-        ChassisSubsystem chassisSubsystem = new ChassisSubsystem(hardwareMap, telemetry);
+        ChassisSubsystem chassisSubsystem = new ChassisSubsystem(hardwareMap, telemetry, SubsystemInitMode.Autonomous);
         FlagSubsystem flagSubsystem = new FlagSubsystem(hardwareMap, telemetry);
 
         flagSubsystem.Lower();
@@ -29,7 +31,8 @@ public class BasicAutonomous extends LinearOpMode{
         flagSubsystem.Raise();
 
         while (opModeIsActive()) {
-            // do fancy stuff here
+            // drive forward two inches
+            chassisSubsystem.DriveForward(2, MotorSpeed.Percent_50);
         }
 
         flagSubsystem.Lower();
