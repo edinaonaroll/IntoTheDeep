@@ -2,6 +2,8 @@ package edu.edina.opmodes.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import edu.edina.definitions.SubsystemInitMode;
@@ -37,6 +39,12 @@ public class TeleOpIntoTheDeep extends LinearOpMode
             double turnInput = gamepad1.right_stick_x;
             boolean driveSlowMode = gamepad1.a;
 
+            double yInput = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
+            boolean buttonPushed = (gamepad1.left_trigger > 0);
+
+            if (buttonPushed) {
+                    ArmExtendMotor.setPower(yInput);
+                    break;
             double armLiftInput = gamepad2.left_stick_y;
             boolean armSlowMode = gamepad2.a;
 
