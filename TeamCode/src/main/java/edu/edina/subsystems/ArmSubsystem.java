@@ -51,10 +51,7 @@ public class ArmSubsystem {
             PowerFactor = DefaultPowerFactor;
         }
 
-        if (yInput > 0) {
-            ArmLiftMotor.setPower(yInput/PowerFactor);
-            ArmLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        } else if (yInput < 0) {
+        if (yInput != 0) {
             ArmLiftMotor.setPower(yInput/PowerFactor);
             ArmLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         } else if (yInput == 0) {
@@ -77,14 +74,49 @@ public class ArmSubsystem {
         telemetry.addData("Power", ArmLiftMotor.getPower());
     }
 
+    public void ArmExtendRetract (double Input, boolean SlowMode) {
+        telemetry.addData("Arm subsystem method", "Extend");
+        telemetry.addData("SlowMode",SlowMode);
+
+        double DefaultPowerFactor = 12;
+        double PowerFactor = 0;
+        // Flip value so that the arm moves in the expected direction
+        Input = -Input;
+
+        if (SlowMode) {
+            PowerFactor = DefaultPowerFactor * 6;
+        } else {
+            PowerFactor = DefaultPowerFactor;
+        }
+
+        ArmExtendMotor.setPower(Input/PowerFactor);
+        ArmExtendMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        telemetry.addData("SelectedItem","Arm Extend Motor");
+        telemetry.addData("MotorZeroPowerBehavior",ArmLiftMotor.getZeroPowerBehavior());
+        telemetry.addData("Power", ArmLiftMotor.getPower());
+    }
+
+
+
     public void Extend () {
         telemetry.addData("Arm subsystem method", "Extend");
+// TODO:  Make arm extend
+    }
 
+    public void ExtendFully () {
+        telemetry.addData("Arm subsystem method", "ExtendFully");
+// TODO:  Make arm extend
     }
 
     public void Retract () {
         telemetry.addData("Arm subsystem method", "Retract");
+// TODO:  Make arm retract
+    }
 
+    public void RetractFully () {
+        telemetry.addData("Arm subsystem method", "RetractFully");
+// TODO:  Make arm retract
     }
 
     public void Grab () {

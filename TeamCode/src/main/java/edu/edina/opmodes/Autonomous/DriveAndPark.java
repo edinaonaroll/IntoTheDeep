@@ -17,7 +17,9 @@ public class DriveAndPark extends LinearOpMode{
 
     @Override
     public void runOpMode() {
-        
+
+        runtime.reset();
+
         ArmSubsystem armsubsystem = new ArmSubsystem(hardwareMap, telemetry);
         ChassisSubsystem chassisSubsystem = new ChassisSubsystem(hardwareMap, telemetry, SubsystemInitMode.Autonomous);
         FlagSubsystem flagSubsystem = new FlagSubsystem(hardwareMap, telemetry);
@@ -34,6 +36,8 @@ public class DriveAndPark extends LinearOpMode{
         chassisSubsystem.DriveForward(2, MotorSpeed.Percent_50);
 
         flagSubsystem.Lower();
+
+        telemetry.addData("Run time: ", runtime.toString());
 
         runtime.reset();
     }

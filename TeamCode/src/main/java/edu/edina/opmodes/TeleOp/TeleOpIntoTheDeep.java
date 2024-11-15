@@ -1,12 +1,7 @@
 package edu.edina.opmodes.TeleOp;
 
-import static edu.edina.definitions.BotBits.ArmExtendMotor;
-import edu.edina.definitions.BotBits;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import edu.edina.definitions.SubsystemInitMode;
@@ -23,7 +18,7 @@ public class TeleOpIntoTheDeep extends LinearOpMode
     @Override
     public void runOpMode() {
 
-        ArmSubsystem armsubsystem = new ArmSubsystem (hardwareMap, telemetry);
+        ArmSubsystem armSubsystem = new ArmSubsystem (hardwareMap, telemetry);
         ChassisSubsystem chassisSubsystem = new ChassisSubsystem (hardwareMap, telemetry, SubsystemInitMode.TeleOp);
         FlagSubsystem flagSubsystem = new FlagSubsystem (hardwareMap, telemetry);
 
@@ -37,23 +32,27 @@ public class TeleOpIntoTheDeep extends LinearOpMode
 
         while (opModeIsActive())
         {
+            // drive control section
             double xDriveInput = gamepad1.left_stick_x;
             double yDriveInput = gamepad1.left_stick_y;
             double turnInput = gamepad1.right_stick_x;
             boolean driveSlowMode = gamepad1.a;
 
             double yInput = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
-            boolean buttonPushed = (gamepad2.y);
 
-//            if (buttonPushed) {
-//                ArmExtendMotor.setPower(1);
-//                ArmExtendMotor.
-            double armLiftInput = gamepad2.left_stick_y;
-            boolean armSlowMode = gamepad2.a;
-
-            armsubsystem.MoveArm(armLiftInput, armSlowMode);
             chassisSubsystem.DriveByController(xDriveInput, yDriveInput, turnInput, driveSlowMode);
 
+
+            //Arm control section
+            boolean buttonPushed = (gamepad2.y);
+
+            double armLiftInput = gamepad2.left_stick_y;
+            double armExtendInput = gamepad2.right_stick_y;
+            boolean armSlowMode = gamepad2.a;
+
+            armSubsystem.MoveArm(armLiftInput, armSlowMode);
+            armSubsystem.ArmExtendRetract(armExtendInput, armSlowMode);
+            
             telemetry.addData("status", "Running");
             telemetry.update();
 
