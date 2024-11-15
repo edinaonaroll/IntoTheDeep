@@ -32,8 +32,30 @@ public class DriveAndPark extends LinearOpMode{
 
         flagSubsystem.Raise();
 
-        // drive forward two inches
-        chassisSubsystem.DriveForward(2, MotorSpeed.Percent_50);
+        // drive forward 2 feet
+        chassisSubsystem.DriveForward(48, MotorSpeed.Percent_50);
+
+        // lift arm up
+        armsubsystem.RaiseFully();
+        // hook specimen onto bar
+        armsubsystem.ExtendFully();
+        // release specimen
+        armsubsystem.Release();
+        armsubsystem.RetractFully();
+        armsubsystem.LowerFully();
+        // back up
+        chassisSubsystem.DriveBack(40, MotorSpeed.Percent_50);
+        // lower arm to lower bar or all the way
+
+        // strafe to observation zone
+        chassisSubsystem.DriveRight(60, MotorSpeed.Percent_50);
+
+
+        // drive to submersible and hang starting specimen
+
+        // drive to observation zone or low bar touch
+
+
 
         flagSubsystem.Lower();
 
