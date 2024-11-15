@@ -75,10 +75,10 @@ public class TestOpMode extends LinearOpMode {
             switch (SelectedItem){
                 case 1:
                     if(yInput>0){
-                        ArmLiftMotor.setPower(yInput/2);
+                        ArmLiftMotor.setPower(yInput/3);
                         ArmLiftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
                     }else if(yInput<0){
-                        ArmLiftMotor.setPower(yInput/4);
+                        ArmLiftMotor.setPower(yInput/12);
                         ArmLiftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
                     }else if(yInput==0){
                         ArmLiftMotor.setPower(.01);

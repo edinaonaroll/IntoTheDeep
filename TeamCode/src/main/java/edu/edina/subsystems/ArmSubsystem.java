@@ -23,7 +23,7 @@ public class ArmSubsystem {
     static final double _increment      = 0.01;     // amount to slew servo each CYCLE_MS cycle
     static final int _cycleMiliseconds  =   50;     // period of each cycle
     static final double _maxPosition    =  1.0;     // Maximum rotational position
-    static final double _minPosition    =  0.0;     // Minimum rotational position
+    static final double _minPosition    =  0.5;     // Minimum rotational position
 
     public ArmSubsystem(HardwareMap hardwareMapReference, Telemetry telemetryReference) {
         map = hardwareMapReference;
@@ -40,10 +40,10 @@ public class ArmSubsystem {
         telemetry.addData("Arm subsystem method", "Moving");
         telemetry.addData("SlowMode",SlowMode);
 
-        double DefaultPowerFactor = 12;
+        double DefaultPowerFactor = 3;
         double PowerFactor = 0;
         // Flip value so that the arm moves in the expected direction
-        yInput = -yInput;
+        //yInput = -yInput;
 
         if (SlowMode) {
             PowerFactor = DefaultPowerFactor * 6;
@@ -78,13 +78,13 @@ public class ArmSubsystem {
         telemetry.addData("Arm subsystem method", "Extend");
         telemetry.addData("SlowMode",SlowMode);
 
-        double DefaultPowerFactor = 12;
+        double DefaultPowerFactor = 1.5;
         double PowerFactor = 0;
         // Flip value so that the arm moves in the expected direction
         Input = -Input;
 
         if (SlowMode) {
-            PowerFactor = DefaultPowerFactor * 6;
+            PowerFactor = DefaultPowerFactor * 2;
         } else {
             PowerFactor = DefaultPowerFactor;
         }
@@ -93,8 +93,8 @@ public class ArmSubsystem {
         ArmExtendMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         telemetry.addData("SelectedItem","Arm Extend Motor");
-        telemetry.addData("MotorZeroPowerBehavior",ArmLiftMotor.getZeroPowerBehavior());
-        telemetry.addData("Power", ArmLiftMotor.getPower());
+        telemetry.addData("MotorZeroPowerBehavior",ArmExtendMotor.getZeroPowerBehavior());
+        telemetry.addData("Power", ArmExtendMotor.getPower());
     }
 
 
@@ -119,7 +119,33 @@ public class ArmSubsystem {
 // TODO:  Make arm retract
     }
 
-    public void Grab () {
+
+
+
+
+    public void Raise () {
+        telemetry.addData("Arm subsystem method", "Extend");
+// TODO:  Make arm extend
+    }
+
+    public void RaiseFully () {
+        telemetry.addData("Arm subsystem method", "ExtendFully");
+// TODO:  Make arm extend
+    }
+
+    public void Lower () {
+        telemetry.addData("Arm subsystem method", "Retract");
+// TODO:  Make arm retract
+    }
+
+    public void LowerFully () {
+        telemetry.addData("Arm subsystem method", "RetractFully");
+// TODO:  Make arm retract
+    }
+
+
+
+    public void Release () {
         telemetry.addData("Arm subsystem method", "Grab");
 
         position = GrabServo.getPosition();
@@ -136,7 +162,7 @@ public class ArmSubsystem {
         GrabServo.setPosition(position);
     }
 
-    public void Release(){
+    public void Grab(){
         telemetry.addData("Arm subsystem method", "Release");
         telemetry.addData("Subsystem method", "Lower");
 

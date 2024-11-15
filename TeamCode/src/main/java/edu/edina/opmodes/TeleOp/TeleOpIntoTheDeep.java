@@ -44,15 +44,25 @@ public class TeleOpIntoTheDeep extends LinearOpMode
 
 
             //Arm control section
-            boolean buttonPushed = (gamepad2.y);
-
             double armLiftInput = gamepad2.left_stick_y;
-            double armExtendInput = gamepad2.right_stick_y;
+            double armExtendInput = gamepad2.left_stick_x;
+
+            boolean clawOpenInput = gamepad2.dpad_up;
+            boolean clawCloseInput = gamepad2.dpad_down;
+
             boolean armSlowMode = gamepad2.a;
+
 
             armSubsystem.MoveArm(armLiftInput, armSlowMode);
             armSubsystem.ArmExtendRetract(armExtendInput, armSlowMode);
-            
+
+            if (clawOpenInput){
+                armSubsystem.Release();
+            } else if (clawCloseInput){
+                armSubsystem.Grab();
+            }
+
+
             telemetry.addData("status", "Running");
             telemetry.update();
 
