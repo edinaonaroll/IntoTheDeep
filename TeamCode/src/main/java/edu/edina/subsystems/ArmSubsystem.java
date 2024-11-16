@@ -29,7 +29,7 @@ public class ArmSubsystem {
     static final double _increment      = 0.01;     // amount to slew servo each CYCLE_MS cycle
     static final int _cycleMiliseconds  =   50;     // period of each cycle
     static final double _maxPosition    =  1.0;     // Maximum rotational position
-    static final double _minPosition    =  0.5;     // Minimum rotational position
+    static final double _minPosition    =  0.42;     // Minimum rotational position
 
     // arm raise limits
     static final int _armRaiseMaxClicks = 360;
@@ -80,6 +80,10 @@ public class ArmSubsystem {
             PowerFactor = DefaultPowerFactor * 8;
         } else {
             PowerFactor = DefaultPowerFactor;
+        }
+
+        if (currentPosition < 150){
+            PowerFactor = PowerFactor / 2;
         }
 
         if (yInput != 0) {
@@ -164,19 +168,8 @@ public class ArmSubsystem {
     public void RaiseFully () {
         telemetry.addData("Arm subsystem method", "ExtendFully");
 
-        int armLiftMotorStartPosition = ArmLiftMotor.getCurrentPosition();
-        int armLiftMotorTargetPosition = armLiftMotorStartPosition + 200;
-
-        if (armLiftMotorTargetPosition > _armRaiseMaxClicks) {
-            armLiftMotorTargetPosition = _armRaiseMaxClicks;
-        }
-
-        if (armLiftMotorTargetPosition < _armRaiseMaxClicks)
-        {
-            ArmLiftMotor.setPower(MotorSpeed.Percent_10);
-            ArmLiftMotor.setTargetPosition(armLiftMotorTargetPosition);
-            ArmLiftMotor.setPower(MotorSpeed.Percent_0);
-        }
+        ArmLiftMotor.setPower(MotorSpeed.Percent_10);
+        ArmLiftMotor.setTargetPosition(_armRaiseMaxClicks);
     }
 
     public void Lower () {
@@ -185,8 +178,10 @@ public class ArmSubsystem {
     }
 
     public void LowerFully () {
-        telemetry.addData("Arm subsystem method", "RetractFully");
+        telemetry.addData("Arm subsystem method", "LowerFully");
 // TODO:  Make arm retract
+//        ArmLiftMotor.setPower(MotorSpeed.Percent_10);
+//        ArmLiftMotor.setTargetPosition(0);
     }
 
 

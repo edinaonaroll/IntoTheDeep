@@ -84,6 +84,7 @@ public class ChassisSubsystem {
         // flip sign because input needs to be the other way for sensible driving
         if (Slowmode){
             yDriveInput = -yDriveInput / 2;
+            xDriveInput = xDriveInput / 2;
         } else {
             yDriveInput = -yDriveInput;
         }
