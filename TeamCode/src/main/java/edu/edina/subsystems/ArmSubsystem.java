@@ -165,7 +165,7 @@ public class ArmSubsystem {
         telemetry.addData("Arm subsystem method", "ExtendFully");
 
         int armLiftMotorStartPosition = ArmLiftMotor.getCurrentPosition();
-        int armLiftMotorTargetPosition = armLiftMotorStartPosition + 10;
+        int armLiftMotorTargetPosition = armLiftMotorStartPosition + 200;
 
         if (armLiftMotorTargetPosition > _armRaiseMaxClicks) {
             armLiftMotorTargetPosition = _armRaiseMaxClicks;
