@@ -29,7 +29,7 @@ public class ArmSubsystem {
     static final double _increment      = 0.01;     // amount to slew servo each CYCLE_MS cycle
     static final int _cycleMiliseconds  =   50;     // period of each cycle
     static final double _maxPosition    =  1.0;     // Maximum rotational position
-    static final double _minPosition    =  0.5;     // Minimum rotational position
+    static final double _minPosition    =  0.7;     // Minimum rotational position
 
     // arm raise limits
     static final int _armRaiseMaxClicks = 360;
