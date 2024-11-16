@@ -34,15 +34,17 @@ public class TeleOpIntoTheDeep extends LinearOpMode
             currTime = runtime.time();
 
             // flag control section
-            if (currTime < 2) {
+            if (currTime < 1) {
                 flagSubsystem.Lower();
             }
 
-            if (currTime > 3 && currTime < 8) {
-                //TODO:  Does this run at the right time?
+            if (currTime > 2 && currTime < 60) {
                 flagSubsystem.Raise();
             }
-            //TODO:  Add another case to take the flag down at the end of the time
+
+            if (currTime > 60) {
+                flagSubsystem.Lower();
+            }
 
             // drive control section
             double xDriveInput = gamepad1.left_stick_x;
