@@ -14,6 +14,7 @@ public class TeleOpIntoTheDeep extends LinearOpMode
 {
 
     private ElapsedTime runtime = new ElapsedTime();
+    private double currTime = 0;
 
     @Override
     public void runOpMode() {
@@ -22,16 +23,27 @@ public class TeleOpIntoTheDeep extends LinearOpMode
         ChassisSubsystem chassisSubsystem = new ChassisSubsystem (hardwareMap, telemetry, SubsystemInitMode.TeleOp);
         FlagSubsystem flagSubsystem = new FlagSubsystem (hardwareMap, telemetry);
 
-        flagSubsystem.Lower();
-
         telemetry.addData("Status", "Initialized");
 
         waitForStart();
 
-        flagSubsystem.Raise();
+        runtime.reset();
 
         while (opModeIsActive())
         {
+            currTime = runtime.time();
+
+            // flag control section
+            if (currTime < 2) {
+                flagSubsystem.Lower();
+            }
+
+            if (currTime > 3 && currTime < 8) {
+                //TODO:  Does this run at the right time?
+                flagSubsystem.Raise();
+            }
+            //TODO:  Add another case to take the flag down at the end of the time
+
             // drive control section
             double xDriveInput = gamepad1.left_stick_x;
             double yDriveInput = gamepad1.left_stick_y;
@@ -51,10 +63,11 @@ public class TeleOpIntoTheDeep extends LinearOpMode
             boolean clawCloseInput = gamepad2.dpad_down;
 
             boolean armSlowMode = gamepad2.a;
+            boolean raiseArmFully = gamepad2.y;
 
 
-            armSubsystem.MoveArm(armLiftInput, armSlowMode);
-            armSubsystem.ArmExtendRetract(armExtendInput, armSlowMode);
+            armSubsystem.ArmRaiseLowerByController(armLiftInput, armSlowMode);
+            armSubsystem.ArmExtendRetractByController(armExtendInput, armSlowMode);
 
             if (clawOpenInput){
                 armSubsystem.Release();
@@ -62,14 +75,19 @@ public class TeleOpIntoTheDeep extends LinearOpMode
                 armSubsystem.Grab();
             }
 
+            if (raiseArmFully){
+                armSubsystem.RaiseFully();
+            }
 
+            telemetry.addData("Run Time: ", runtime.time());
             telemetry.addData("status", "Running");
             telemetry.update();
+
+
 
             idle();
         }
 
-        flagSubsystem.Lower();
 
         runtime.reset();
     }

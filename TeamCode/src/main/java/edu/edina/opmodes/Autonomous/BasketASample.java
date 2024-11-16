@@ -32,7 +32,7 @@ public class BasketASample extends LinearOpMode{
 
         while (opModeIsActive()) {
             // drive forward two inches
-            chassisSubsystem.DriveForward(2, MotorSpeed.Percent_50);
+            chassisSubsystem.DriveForward_Inches(2, MotorSpeed.Percent_50);
         }
 
         flagSubsystem.Lower();

@@ -48,6 +48,23 @@ public class ChassisSubsystem {
         }
     }
 
+    private void InitAutonomous(){
+        frontLeftDrive.setTargetPosition(0);
+        backLeftDrive.setTargetPosition(0);
+        frontRightDrive.setTargetPosition(0);
+        backRightDrive.setTargetPosition(0);
+
+        frontLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        frontLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
     public void SetMotorDirection(DcMotor.Direction direction) {
        if(direction==DcMotor.Direction.FORWARD){
            frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -92,32 +109,15 @@ public class ChassisSubsystem {
         telemetry.addData("turnInput", turnInput);
     }
 
-    private void InitAutonomous(){
-        frontLeftDrive.setTargetPosition(0);
-        backLeftDrive.setTargetPosition(0);
-        frontRightDrive.setTargetPosition(0);
-        backRightDrive.setTargetPosition(0);
-
-        frontLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        frontLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        frontRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
-
-    public void DriveForward(int Inches, double speed){
+    public void DriveForward_Inches(int inches, double speed){
         GetMotorPositions();
         SetMotorDirection(DcMotor.Direction.FORWARD);
 
         // calculate new targets
-        frontLeftDriveMotorPosition += Inches * clicksPerInch;
-        frontRightDriveMotorPosition += Inches * clicksPerInch;
-        backLeftDriveMotorPosition += Inches * clicksPerInch;
-        backRightDriveMotorPosition += Inches * clicksPerInch;
+        frontLeftDriveMotorPosition += inches * clicksPerInch;
+        frontRightDriveMotorPosition += inches * clicksPerInch;
+        backLeftDriveMotorPosition += inches * clicksPerInch;
+        backRightDriveMotorPosition += inches * clicksPerInch;
 
         SetMotorSpeed(speed);
         SetMotorPositions();
@@ -125,65 +125,78 @@ public class ChassisSubsystem {
         SetMotorSpeed(MotorSpeed.Percent_0);
     }
 
-    public void DriveBack(int Inches, double speed){
+    public void DriveBack_Inches(int inches, double speed){
         GetMotorPositions();
         SetMotorDirection(DcMotor.Direction.REVERSE);
 
         // calculate new targets
-        frontLeftDriveMotorPosition += Inches * clicksPerInch;
-        frontRightDriveMotorPosition += Inches * clicksPerInch;
-        backLeftDriveMotorPosition += Inches * clicksPerInch;
-        backRightDriveMotorPosition += Inches * clicksPerInch;
+        frontLeftDriveMotorPosition += inches * clicksPerInch;
+        frontRightDriveMotorPosition += inches * clicksPerInch;
+        backLeftDriveMotorPosition += inches * clicksPerInch;
+        backRightDriveMotorPosition += inches * clicksPerInch;
 
         SetMotorSpeed(speed);
         SetMotorPositions();
+        //TODO:  Update text
         WriteTelemetry("Move Forward");
         SetMotorSpeed(MotorSpeed.Percent_0);
     }
 
-    public void DriveLeft(int Inches, double speed){
+    public void DriveLeft_Inches(int inches, double speed){
         GetMotorPositions();
         SetMotorDirection(DcMotorSimple.Direction.FORWARD);
 
         // calculate new targets
-        frontLeftDriveMotorPosition -= Inches * clicksPerInch;
-        frontRightDriveMotorPosition += Inches * clicksPerInch;
-        backLeftDriveMotorPosition += Inches * clicksPerInch;
-        backRightDriveMotorPosition -= Inches * clicksPerInch;
+        frontLeftDriveMotorPosition -= inches * clicksPerInch;
+        frontRightDriveMotorPosition += inches * clicksPerInch;
+        backLeftDriveMotorPosition += inches * clicksPerInch;
+        backRightDriveMotorPosition -= inches * clicksPerInch;
 
         SetMotorSpeed(speed);
         SetMotorPositions();
+        //TODO:  Update text
         WriteTelemetry("Move Forward");
         SetMotorSpeed(MotorSpeed.Percent_0);
     }
 
-    public void DriveRight(int Inches, double speed){
+    public void DriveRight_Inches(int inches, double speed){
         GetMotorPositions();
         SetMotorDirection(DcMotorSimple.Direction.FORWARD);
         
         // calculate new targets
-        frontLeftDriveMotorPosition += Inches * clicksPerInch;
-        frontRightDriveMotorPosition -= Inches * clicksPerInch;
-        backLeftDriveMotorPosition -= Inches * clicksPerInch;
-        backRightDriveMotorPosition+= Inches * clicksPerInch;
+        frontLeftDriveMotorPosition += inches * clicksPerInch;
+        frontRightDriveMotorPosition -= inches * clicksPerInch;
+        backLeftDriveMotorPosition -= inches * clicksPerInch;
+        backRightDriveMotorPosition += inches * clicksPerInch;
 
         SetMotorSpeed(speed);
         SetMotorPositions();
+        //TODO:  Update text
         WriteTelemetry("Move Forward");
         SetMotorSpeed(MotorSpeed.Percent_0);
     }
+
+    public void DriveForward_Cubits(int cubits, double speed){
+        DriveBack_Inches(cubits / 18, speed);
+    }
+
+    //TODO:  Add method for driving backward in cubits
+    //TODO:  Add method for driving left in cubits
+    //TODO:  Add method for driving right in cubits
+
 
     public void TurnLeft(int degrees, double speed){
         GetMotorPositions();
 
         // calculate new target
-        frontLeftDriveMotorPosition -= degrees * clicksPerInch;
-        frontRightDriveMotorPosition += degrees * clicksPerInch;
-        backLeftDriveMotorPosition -= degrees * clicksPerInch;
-        backRightDriveMotorPosition += degrees * clicksPerInch;
+        frontLeftDriveMotorPosition -= degrees * clicksPerDeg;
+        frontRightDriveMotorPosition += degrees * clicksPerDeg;
+        backLeftDriveMotorPosition -= degrees * clicksPerDeg;
+        backRightDriveMotorPosition += degrees * clicksPerDeg;
 
         SetMotorSpeed(speed);
         SetMotorPositions();
+        //TODO:  Update text
         WriteTelemetry("Move Forward");
         SetMotorSpeed(MotorSpeed.Percent_0);
     }
@@ -192,13 +205,14 @@ public class ChassisSubsystem {
         GetMotorPositions();
 
         // calculate new targets
-        frontLeftDriveMotorPosition += degrees * clicksPerInch;
-        frontRightDriveMotorPosition -= degrees * clicksPerInch;
-        backLeftDriveMotorPosition += degrees * clicksPerInch;
-        backRightDriveMotorPosition -= degrees * clicksPerInch;
+        frontLeftDriveMotorPosition += degrees * clicksPerDeg;
+        frontRightDriveMotorPosition -= degrees * clicksPerDeg;
+        backLeftDriveMotorPosition += degrees * clicksPerDeg;
+        backRightDriveMotorPosition -= degrees * clicksPerDeg;
 
         SetMotorSpeed(speed);
         SetMotorPositions();
+        //TODO:  Update text
         WriteTelemetry("Move Forward");
         SetMotorSpeed(MotorSpeed.Percent_0);
     }

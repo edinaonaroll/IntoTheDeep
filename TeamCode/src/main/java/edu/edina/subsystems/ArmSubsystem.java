@@ -4,9 +4,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.TouchSensor;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import edu.edina.definitions.BotBits;
+import edu.edina.definitions.MotorSpeed;
 
 public class ArmSubsystem {
 
@@ -15,73 +18,91 @@ public class ArmSubsystem {
 
     private DcMotor ArmLiftMotor = null;
     private DcMotor ArmExtendMotor = null;
+    private TouchSensor ArmTouchSensor = null;
 
     private Servo GrabServo = null;
     double  position = _minPosition;
     boolean rampUp = true;
 
+    // grabber limits
     static final double _increment      = 0.01;     // amount to slew servo each CYCLE_MS cycle
     static final int _cycleMiliseconds  =   50;     // period of each cycle
     static final double _maxPosition    =  1.0;     // Maximum rotational position
     static final double _minPosition    =  0.5;     // Minimum rotational position
 
+    // arm raise limits
+    static final int _armRaiseMaxClicks = 100;
+
+    // arm extend limits
+    // TODO:  Add variable for arm extend max clicks
+
+    //TODO:  model after ChassisSubsystem default constructor:  take in init mode as a parameter
     public ArmSubsystem(HardwareMap hardwareMapReference, Telemetry telemetryReference) {
         map = hardwareMapReference;
         telemetry = telemetryReference;
 
         ArmLiftMotor = map.get(DcMotor.class, BotBits.ArmLiftMotor);
         ArmExtendMotor = map.get(DcMotor.class, BotBits.ArmExtendMotor);
-
+        ArmTouchSensor = map.get(TouchSensor.class, BotBits.ArmTouchSensor);
         GrabServo = map.get(Servo.class, BotBits.GrabServo);
+
+        //TODO:  model after ChassisSubsystem default constructor:  call init autonomous method if it's autonomous
     }
 
-    public void MoveArm(double yInput, boolean SlowMode){
+    //TODO:  create an init autonomous method
+    //TODO:  model init autonomous method after ChassisSubsystem and update motor names
 
-        telemetry.addData("Arm subsystem method", "Moving");
-        telemetry.addData("SlowMode",SlowMode);
+    public void ArmRaiseLowerByController(double yInput, boolean SlowMode){
 
-        double DefaultPowerFactor = 3;
+        //TODO:  Update telemetry text so that it makes sense
+        telemetry.addData("SlowMode", SlowMode);
+
+        double DefaultPowerFactor = 3.5;
         double PowerFactor = 0;
+        double Power = 0;
+
         // Flip value so that the arm moves in the expected direction
-        //yInput = -yInput;
+        yInput = -yInput;
+        int currentPosition = ArmLiftMotor.getCurrentPosition();
 
         if (SlowMode) {
-            PowerFactor = DefaultPowerFactor * 6;
+            PowerFactor = DefaultPowerFactor * 8;
         } else {
             PowerFactor = DefaultPowerFactor;
         }
 
         if (yInput != 0) {
-            ArmLiftMotor.setPower(yInput/PowerFactor);
-            ArmLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+            if (yInput > 0){
+                if (currentPosition < _armRaiseMaxClicks) {
+                    Power = yInput / PowerFactor;
+                }
+            } else if (yInput < 0) {
+                if (!ArmTouchSensor.isPressed()){
+                    Power = .02;
+                }
+            }
+
+            ArmLiftMotor.setPower(Power);
+
         } else if (yInput == 0) {
-//TODO:  only activate this block if the middle button is NOT pressed
-
             // if the arm is coming down, brake will stop it from going *UP*.
-            // briefly, set the power to 'going up', so that brake will keep it from going down.
-            ArmLiftMotor.setPower(.01);
-            ArmLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            // set the power to a low 'going up' value, so that brake will keep it from going down.
+            ArmLiftMotor.setPower(.05);
         }
-// TODO:  Add another 'else if' for if the middle button is pressed.  This tells us that
-//  the arm is going down and we need to stop it.
-//  In this case, we need to stop and ignore 'down' input from the controller.
-//  If the button is pressed, what should the behavior be if the input is 'up' vs. 'down'?
 
+        ArmLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-
-        telemetry.addData("SelectedItem","Arm Lift Motor");
-        telemetry.addData("MotorZeroPowerBehavior",ArmLiftMotor.getZeroPowerBehavior());
-        telemetry.addData("Power", ArmLiftMotor.getPower());
+        telemetry.addData("ArmLiftMotor Power", ArmLiftMotor.getPower());
+        telemetry.addData("ArmLiftMotor Start Position", currentPosition);
+        telemetry.addData("ArmLiftMotor ZeroPowerBehavior",ArmLiftMotor.getZeroPowerBehavior());
     }
 
-    public void ArmExtendRetract (double Input, boolean SlowMode) {
-        telemetry.addData("Arm subsystem method", "Extend");
+    public void ArmExtendRetractByController(double Input, boolean SlowMode) {
+        //TODO:  Update telemetry text so that it makes sense
         telemetry.addData("SlowMode",SlowMode);
 
         double DefaultPowerFactor = 1.5;
         double PowerFactor = 0;
-        // Flip value so that the arm moves in the expected direction
-        Input = -Input;
 
         if (SlowMode) {
             PowerFactor = DefaultPowerFactor * 2;
@@ -92,6 +113,7 @@ public class ArmSubsystem {
         ArmExtendMotor.setPower(Input/PowerFactor);
         ArmExtendMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        //TODO:  Update telemetry text so that it makes sense
         telemetry.addData("SelectedItem","Arm Extend Motor");
         telemetry.addData("MotorZeroPowerBehavior",ArmExtendMotor.getZeroPowerBehavior());
         telemetry.addData("Power", ArmExtendMotor.getPower());
@@ -123,14 +145,27 @@ public class ArmSubsystem {
 
 
 
-    public void Raise () {
+    public void Raise (int clicks) {
         telemetry.addData("Arm subsystem method", "Extend");
-// TODO:  Make arm extend
+// TODO:  Make arm raise
     }
 
     public void RaiseFully () {
         telemetry.addData("Arm subsystem method", "ExtendFully");
-// TODO:  Make arm extend
+
+        int armLiftMotorStartPosition = ArmLiftMotor.getCurrentPosition();
+        int armLiftMotorTargetPosition = armLiftMotorStartPosition + 10;
+
+        if (armLiftMotorTargetPosition > _armRaiseMaxClicks) {
+            armLiftMotorTargetPosition = _armRaiseMaxClicks;
+        }
+
+        if (armLiftMotorTargetPosition < _armRaiseMaxClicks)
+        {
+            ArmLiftMotor.setPower(MotorSpeed.Percent_10);
+            ArmLiftMotor.setTargetPosition(armLiftMotorTargetPosition);
+            ArmLiftMotor.setPower(MotorSpeed.Percent_0);
+        }
     }
 
     public void Lower () {

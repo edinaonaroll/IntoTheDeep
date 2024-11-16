@@ -19,7 +19,7 @@ public class TestOpMode extends LinearOpMode {
     private DcMotor rightBackDrive = null;
     private TouchSensor TouchSensorRight = null;
     private TouchSensor TouchSensorLeft = null;
-    private TouchSensor TouchSensorMiddle = null;
+    private TouchSensor ArmTouchSensor = null;
 
     private DcMotor ArmLiftMotor = null;
     private DcMotor ArmExtendMotor = null;
@@ -37,7 +37,7 @@ public class TestOpMode extends LinearOpMode {
 //TODO:  Replace literal text with reference to BotBits class
         TouchSensorRight = hardwareMap.get(TouchSensor.class,  "Touch Sensor Right");
         TouchSensorLeft = hardwareMap.get(TouchSensor.class, "Touch Sensor Left");
-        TouchSensorMiddle = hardwareMap.get(TouchSensor.class, "Touch Sensor Middle");
+        ArmTouchSensor = hardwareMap.get(TouchSensor.class, "Touch Sensor Middle");
 
         leftFrontDrive.setDirection(DcMotorSimple.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -145,7 +145,7 @@ public class TestOpMode extends LinearOpMode {
                 telemetry.addData("Touch sensor", "You touched the right");
             }
 
-            if(TouchSensorMiddle.isPressed()){
+            if(ArmTouchSensor.isPressed()){
                 //TODO:  Clear telemetry (see above)
                 telemetry.addData("Touch sensor","You touched the middle");
             }

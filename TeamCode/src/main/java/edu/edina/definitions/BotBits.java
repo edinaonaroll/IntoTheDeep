@@ -11,7 +11,7 @@ public class BotBits {
     public static String FlagServo = "flagServo";
 
     // sensors
-    public static String TouchSensor = "Touch Sensor";
+    public static String ArmTouchSensor = "Touch Sensor Middle";
     public static String ColorSensor = "Color Sensor";
     public static String LED = "LED";
     public static String DistanceSensor = "Distance Sensor";
