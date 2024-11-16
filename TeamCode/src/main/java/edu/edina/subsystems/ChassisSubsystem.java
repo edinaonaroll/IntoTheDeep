@@ -137,8 +137,7 @@ public class ChassisSubsystem {
 
         SetMotorSpeed(speed);
         SetMotorPositions();
-        //TODO:  Update text
-        WriteTelemetry("Move Forward");
+        WriteTelemetry("Move Backwards");
         SetMotorSpeed(MotorSpeed.Percent_0);
     }
 
@@ -154,8 +153,7 @@ public class ChassisSubsystem {
 
         SetMotorSpeed(speed);
         SetMotorPositions();
-        //TODO:  Update text
-        WriteTelemetry("Move Forward");
+        WriteTelemetry("Move Left");
         SetMotorSpeed(MotorSpeed.Percent_0);
     }
 
@@ -171,18 +169,25 @@ public class ChassisSubsystem {
 
         SetMotorSpeed(speed);
         SetMotorPositions();
-        //TODO:  Update text
-        WriteTelemetry("Move Forward");
+        WriteTelemetry("Move Right");
         SetMotorSpeed(MotorSpeed.Percent_0);
     }
 
     public void DriveForward_Cubits(int cubits, double speed){
+        DriveForward_Inches(cubits / 18, speed);
+    }
+
+    public void DriveBack_Cubits(int cubits, double speed){
         DriveBack_Inches(cubits / 18, speed);
     }
 
-    //TODO:  Add method for driving backward in cubits
-    //TODO:  Add method for driving left in cubits
-    //TODO:  Add method for driving right in cubits
+    public void DriveLeft_Cubits(int cubits, double speed){
+        DriveLeft_Inches(cubits / 18, speed);
+    }
+
+    public void DriveRight_Cubits(int cubits, double speed){
+        DriveRight_Inches(cubits / 18, speed);
+    }
 
 
     public void TurnLeft(int degrees, double speed){
@@ -196,8 +201,7 @@ public class ChassisSubsystem {
 
         SetMotorSpeed(speed);
         SetMotorPositions();
-        //TODO:  Update text
-        WriteTelemetry("Move Forward");
+        WriteTelemetry("Turn Left");
         SetMotorSpeed(MotorSpeed.Percent_0);
     }
 
@@ -212,8 +216,7 @@ public class ChassisSubsystem {
 
         SetMotorSpeed(speed);
         SetMotorPositions();
-        //TODO:  Update text
-        WriteTelemetry("Move Forward");
+        WriteTelemetry("Turn Right");
         SetMotorSpeed(MotorSpeed.Percent_0);
     }
 
