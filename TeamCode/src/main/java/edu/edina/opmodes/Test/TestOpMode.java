@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import edu.edina.definitions.BotBits;
+import edu.edina.definitions.SubsystemInitMode;
 import edu.edina.subsystems.ArmSubsystem;
 import edu.edina.subsystems.FlagSubsystem;
 
@@ -48,7 +49,7 @@ public class TestOpMode extends LinearOpMode {
         ArmExtendMotor = hardwareMap.get(DcMotor.class, BotBits.ArmExtendMotor);
 
         FlagSubsystem flag = new FlagSubsystem(hardwareMap, telemetry);
-        ArmSubsystem Arm = new ArmSubsystem(hardwareMap, telemetry);
+        ArmSubsystem Arm = new ArmSubsystem(hardwareMap, telemetry , SubsystemInitMode.TeleOp);
 
         NumHardwareElements = 8;
 

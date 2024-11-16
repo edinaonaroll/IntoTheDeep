@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import edu.edina.definitions.BotBits;
 import edu.edina.definitions.MotorSpeed;
+import edu.edina.definitions.SubsystemInitMode;
 
 public class ArmSubsystem {
 
@@ -31,13 +32,12 @@ public class ArmSubsystem {
     static final double _minPosition    =  0.5;     // Minimum rotational position
 
     // arm raise limits
-    static final int _armRaiseMaxClicks = 100;
+    static final int _armRaiseMaxClicks = 350;
 
     // arm extend limits
-    // TODO:  Add variable for arm extend max clicks
+    static final int _armExtendMaxClicks = 200;
 
-    //TODO:  model after ChassisSubsystem default constructor:  take in init mode as a parameter
-    public ArmSubsystem(HardwareMap hardwareMapReference, Telemetry telemetryReference) {
+    public ArmSubsystem(HardwareMap hardwareMapReference, Telemetry telemetryReference, SubsystemInitMode initMode) {
         map = hardwareMapReference;
         telemetry = telemetryReference;
 
@@ -46,11 +46,22 @@ public class ArmSubsystem {
         ArmTouchSensor = map.get(TouchSensor.class, BotBits.ArmTouchSensor);
         GrabServo = map.get(Servo.class, BotBits.GrabServo);
 
-        //TODO:  model after ChassisSubsystem default constructor:  call init autonomous method if it's autonomous
+        if (initMode == SubsystemInitMode.Autonomous){
+            InitAutonomous();
+        }
     }
 
-    //TODO:  create an init autonomous method
-    //TODO:  model init autonomous method after ChassisSubsystem and update motor names
+
+    private void InitAutonomous(){
+        ArmLiftMotor.setTargetPosition(0);
+        ArmExtendMotor.setTargetPosition(0);
+
+        ArmLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ArmExtendMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        ArmLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        ArmExtendMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
 
     public void ArmRaiseLowerByController(double yInput, boolean SlowMode){
 

@@ -18,7 +18,7 @@ public class GetASample extends LinearOpMode{
     @Override
     public void runOpMode() {
 
-        ArmSubsystem armsubsystem = new ArmSubsystem(hardwareMap, telemetry);
+        ArmSubsystem armsubsystem = new ArmSubsystem(hardwareMap, telemetry , SubsystemInitMode.Autonomous);
         ChassisSubsystem chassisSubsystem = new ChassisSubsystem(hardwareMap, telemetry, SubsystemInitMode.Autonomous);
         FlagSubsystem flagSubsystem = new FlagSubsystem(hardwareMap, telemetry);
 

@@ -20,7 +20,7 @@ public class DriveAndPark extends LinearOpMode{
 
         runtime.reset();
 
-        ArmSubsystem armsubsystem = new ArmSubsystem(hardwareMap, telemetry);
+        ArmSubsystem armsubsystem = new ArmSubsystem(hardwareMap, telemetry, SubsystemInitMode.Autonomous);
         ChassisSubsystem chassisSubsystem = new ChassisSubsystem(hardwareMap, telemetry, SubsystemInitMode.Autonomous);
         FlagSubsystem flagSubsystem = new FlagSubsystem(hardwareMap, telemetry);
 

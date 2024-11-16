@@ -19,7 +19,7 @@ public class TeleOpIntoTheDeep extends LinearOpMode
     @Override
     public void runOpMode() {
 
-        ArmSubsystem armSubsystem = new ArmSubsystem (hardwareMap, telemetry);
+        ArmSubsystem armSubsystem = new ArmSubsystem (hardwareMap, telemetry, SubsystemInitMode.TeleOp);
         ChassisSubsystem chassisSubsystem = new ChassisSubsystem (hardwareMap, telemetry, SubsystemInitMode.TeleOp);
         FlagSubsystem flagSubsystem = new FlagSubsystem (hardwareMap, telemetry);
 
