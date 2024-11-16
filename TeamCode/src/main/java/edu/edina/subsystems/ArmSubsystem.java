@@ -32,7 +32,7 @@ public class ArmSubsystem {
     static final double _minPosition    =  0.5;     // Minimum rotational position
 
     // arm raise limits
-    static final int _armRaiseMaxClicks = 350;
+    static final int _armRaiseMaxClicks = 360;
 
     // arm extend limits
     static final int _armExtendMaxClicks = 200;
