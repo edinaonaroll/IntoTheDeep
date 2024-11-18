@@ -1,6 +1,8 @@
 package edu.edina.definitions;
 
 public class MotorSpeed {
+    // TODO:  Simplifty this class.  Change to something like zero, slow, medium, fast, full
+    // TODO:  Probably, change the values to between zero and 1 - rather than between zero and 100
     public static double Percent_100 = 100;
     public static double Percent_90 = 90;
     public static double Percent_80 = 80;

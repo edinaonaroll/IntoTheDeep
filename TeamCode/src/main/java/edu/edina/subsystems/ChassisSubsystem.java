@@ -36,11 +36,6 @@ public class ChassisSubsystem {
         frontRightDrive =   map.get(DcMotor.class, BotBits.FrontRightDriveMotor);
         backRightDrive =    map.get(DcMotor.class, BotBits.BackRightDriveMotor);
 
-        frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
-        backLeftDrive.setDirection(DcMotor.Direction.FORWARD);
-        frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
-        backRightDrive.setDirection(DcMotor.Direction.REVERSE);
-
         SetMotorDirection(DcMotor.Direction.FORWARD);
         
         if (initMode == SubsystemInitMode.Autonomous){
@@ -70,12 +65,12 @@ public class ChassisSubsystem {
            frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
            backLeftDrive.setDirection(DcMotor.Direction.FORWARD);
            frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
-           backRightDrive.setDirection(DcMotor.Direction.REVERSE);
+           backRightDrive.setDirection(DcMotor.Direction.REVERSE); // Motor is installed backwards
        } else {
            frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
            backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
            frontRightDrive.setDirection(DcMotor.Direction.REVERSE);
-           backRightDrive.setDirection(DcMotor.Direction.FORWARD);
+           backRightDrive.setDirection(DcMotor.Direction.FORWARD); // Motor is installed backwards
        }
     }
 

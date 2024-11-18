@@ -51,7 +51,6 @@ public class ArmSubsystem {
         }
     }
 
-
     private void InitAutonomous(){
         ArmLiftMotor.setTargetPosition(0);
         ArmExtendMotor.setTargetPosition(0);
@@ -65,7 +64,7 @@ public class ArmSubsystem {
 
     public void ArmRaiseLowerByController(double yInput, boolean SlowMode){
 
-        //TODO:  Update telemetry text so that it makes sense
+        //TODO:  Update telemetry text so that shows what motor is in slow mode
         telemetry.addData("SlowMode", SlowMode);
 
         double DefaultPowerFactor = 3.5;
@@ -113,7 +112,8 @@ public class ArmSubsystem {
     }
 
     public void ArmExtendRetractByController(double Input, boolean SlowMode) {
-        //TODO:  Update telemetry text so that it makes sense
+
+        //TODO:  Update telemetry text so that shows what motor is in slow mode
         telemetry.addData("SlowMode",SlowMode);
 
         double DefaultPowerFactor = 1.5;
@@ -128,7 +128,7 @@ public class ArmSubsystem {
         ArmExtendMotor.setPower(Input/PowerFactor);
         ArmExtendMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        //TODO:  Update telemetry text so that it makes sense
+        //TODO:  Update telemetry text so that it makes sense.  See the method above this one.
         telemetry.addData("SelectedItem","Arm Extend Motor");
         telemetry.addData("MotorZeroPowerBehavior",ArmExtendMotor.getZeroPowerBehavior());
         telemetry.addData("Power", ArmExtendMotor.getPower());
@@ -136,21 +136,25 @@ public class ArmSubsystem {
 
 
 
+    // TODO:  take in paramater of how many clicks to raise (see Raise)
     public void Extend () {
         telemetry.addData("Arm subsystem method", "Extend");
 // TODO:  Make arm extend
     }
 
+    // TODO:  take in paramater of how many clicks to raise (see Raise)
     public void ExtendFully () {
         telemetry.addData("Arm subsystem method", "ExtendFully");
 // TODO:  Make arm extend
     }
 
+    // TODO:  take in paramater of how many clicks to raise (see Raise)
     public void Retract () {
         telemetry.addData("Arm subsystem method", "Retract");
 // TODO:  Make arm retract
     }
 
+    // TODO:  take in paramater of how many clicks to raise (see Raise)
     public void RetractFully () {
         telemetry.addData("Arm subsystem method", "RetractFully");
 // TODO:  Make arm retract
@@ -162,25 +166,37 @@ public class ArmSubsystem {
 
     public void Raise (int clicks) {
         telemetry.addData("Arm subsystem method", "Extend");
-// TODO:  Make arm raise
+        // TODO:  Get current arm position
+
+        // TODO:  Get target position by adding how much to raise and current positions
+
+        // TODO:  If target position is too high, then set a lower value
+
+        // TODO:  Set motor power
+
+        // TODO:  Set target position
     }
 
     public void RaiseFully () {
         telemetry.addData("Arm subsystem method", "ExtendFully");
 
-        ArmLiftMotor.setPower(MotorSpeed.Percent_10);
+//        ArmLiftMotor.setPower(MotorSpeed.Percent_10);
+        ArmLiftMotor.setPower(.4);
         ArmLiftMotor.setTargetPosition(_armRaiseMaxClicks);
     }
 
+    // TODO:  take in paramater of how many clicks to raise (see Raise)
     public void Lower () {
         telemetry.addData("Arm subsystem method", "Retract");
-// TODO:  Make arm retract
+        // TODO:  Make arm retract the specified amount
     }
 
+    // TODO:  take in motor speed as a parameter to pass to the motor
     public void LowerFully () {
         telemetry.addData("Arm subsystem method", "LowerFully");
-// TODO:  Make arm retract
+        // TODO:  Make arm lower all the way
 //        ArmLiftMotor.setPower(MotorSpeed.Percent_10);
+//        ArmLiftMotor.setPower(.4);
 //        ArmLiftMotor.setTargetPosition(0);
     }
 
