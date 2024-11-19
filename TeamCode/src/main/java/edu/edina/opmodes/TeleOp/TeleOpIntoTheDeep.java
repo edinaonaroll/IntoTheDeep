@@ -39,7 +39,7 @@ public class TeleOpIntoTheDeep extends LinearOpMode
             }
 
             if (currTime > 2 && currTime < 60) {
-                flagSubsystem.Raise();
+                flagSubsystem.RaiseFully();
             }
 
 
@@ -79,7 +79,7 @@ public class TeleOpIntoTheDeep extends LinearOpMode
             }
 
             if (raiseArmFully){
-                armSubsystem.RaiseFully();
+                armSubsystem.RaiseFully(.2);
             }
 
             telemetry.addData("Run Time: ", runtime.time());

@@ -9,10 +9,9 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import edu.edina.definitions.BotBits;
-import edu.edina.definitions.MotorSpeed;
 import edu.edina.definitions.SubsystemInitMode;
 
-public class ArmSubsystem {
+public class ArmSubsystem extends SubsystemBase{
 
     Telemetry telemetry;
     HardwareMap map;
@@ -23,7 +22,8 @@ public class ArmSubsystem {
 
     private Servo GrabServo = null;
     double  position = _minPosition;
-    boolean rampUp = true;
+    int armRaiseIncrement = 10;
+    int armExtendIncrement = 10;
 
     // grabber limits
     static final double _increment      = 0.01;     // amount to slew servo each CYCLE_MS cycle
@@ -137,102 +137,136 @@ public class ArmSubsystem {
 
 
     // TODO:  take in paramater of how many clicks to raise (see Raise)
-    public void Extend () {
+    public double Extend () {
         telemetry.addData("Arm subsystem method", "Extend");
 // TODO:  Make arm extend
+        return 0;
     }
 
     // TODO:  take in paramater of how many clicks to raise (see Raise)
-    public void ExtendFully () {
+    public double ExtendFully () {
         telemetry.addData("Arm subsystem method", "ExtendFully");
 // TODO:  Make arm extend
+        return 0;
     }
 
     // TODO:  take in paramater of how many clicks to raise (see Raise)
-    public void Retract () {
+    public double Retract () {
         telemetry.addData("Arm subsystem method", "Retract");
 // TODO:  Make arm retract
+        return 0;
     }
 
     // TODO:  take in paramater of how many clicks to raise (see Raise)
-    public void RetractFully () {
+    public double RetractFully () {
         telemetry.addData("Arm subsystem method", "RetractFully");
 // TODO:  Make arm retract
+        return 0;
     }
 
 
 
 
 
-    public void Raise (int clicks) {
+    public double Raise (int clicks, double motorPower) {
         telemetry.addData("Arm subsystem method", "Extend");
-        // TODO:  Get current arm position
 
-        // TODO:  Get target position by adding how much to raise and current positions
+        int currPosition = ArmLiftMotor.getCurrentPosition();
+        int targetPosition = currPosition + armRaiseIncrement;
 
-        // TODO:  If target position is too high, then set a lower value
+        if (targetPosition >= _armRaiseMaxClicks) {
+            targetPosition = _armRaiseMaxClicks;
+        }
 
-        // TODO:  Set motor power
+        ArmLiftMotor.setPower(.2);
+        ArmLiftMotor.setTargetPosition(targetPosition);
 
-        // TODO:  Set target position
+        telemetry.addData("Arm raise position:     ", targetPosition);
+        telemetry.update();
+
+        return targetPosition;
     }
 
-    public void RaiseFully () {
-        telemetry.addData("Arm subsystem method", "ExtendFully");
+    public double RaiseFully (double motorPower) {
+        telemetry.addData("Arm subsystem method", "RaiseFully");
 
-//        ArmLiftMotor.setPower(MotorSpeed.Percent_10);
-        ArmLiftMotor.setPower(.4);
-        ArmLiftMotor.setTargetPosition(_armRaiseMaxClicks);
+        double currPosition;
+
+        do {
+            currPosition = Raise(armRaiseIncrement, motorPower);
+            sleep(_cycleMiliseconds);
+        } while (currPosition < _armRaiseMaxClicks);
+
+        return position;
     }
 
     // TODO:  take in paramater of how many clicks to raise (see Raise)
-    public void Lower () {
+    public double Lower (int clicks, double motorPower) {
         telemetry.addData("Arm subsystem method", "Retract");
         // TODO:  Make arm retract the specified amount
+        return 0;
     }
 
     // TODO:  take in motor speed as a parameter to pass to the motor
-    public void LowerFully () {
+    public double LowerFully (double motorPower) {
         telemetry.addData("Arm subsystem method", "LowerFully");
         // TODO:  Make arm lower all the way
-//        ArmLiftMotor.setPower(MotorSpeed.Percent_10);
-//        ArmLiftMotor.setPower(.4);
-//        ArmLiftMotor.setTargetPosition(0);
+        ArmLiftMotor.setPower(motorPower);
+        ArmLiftMotor.setPower(-.05);
+        ArmLiftMotor.setTargetPosition(0);
+        return 0;
     }
 
 
 
-    public void Release () {
-        telemetry.addData("Arm subsystem method", "Grab");
+    public double Release () {
+        telemetry.addData("Grabber subsystem method", "Release");
 
-        position = GrabServo.getPosition();
-        telemetry.addData("Servo Position", position);
+        double currPosition = GrabServo.getPosition();
+        double targetPosition = currPosition + _increment;
 
-        while (position < _maxPosition){
-            position += _increment;
-
-            if (position >= _maxPosition) {
-                position = _maxPosition;
-            }
+        if (targetPosition >= _maxPosition) {
+            targetPosition = _maxPosition;
         }
 
-        GrabServo.setPosition(position);
+        GrabServo.setPosition(currPosition);
+
+        telemetry.addData("Servo Position", position);
+        telemetry.update();
+
+        return targetPosition;
+    }
+
+    public void ReleaseFully() {
+        double currPosition;
+
+        do {
+            currPosition = Release();
+            sleep(_cycleMiliseconds);
+        } while (currPosition < _maxPosition);
     }
 
     public void Grab(){
-        telemetry.addData("Arm subsystem method", "Release");
-        telemetry.addData("Subsystem method", "Lower");
+        telemetry.addData("Grabber subsystem method", "Grab");
 
-        position = GrabServo.getPosition();
-        telemetry.addData("Servo Position", position);
+        double currPosition = GrabServo.getPosition();
+        double targetPosition = currPosition - _increment;
 
-        while (position > _minPosition) {
-            position -= _increment;
-            if (position <= _minPosition) {
-                position = _minPosition;
-            }
+        if (targetPosition <= _minPosition) {
+            targetPosition = _minPosition;
         }
 
-        GrabServo.setPosition(position);
+        GrabServo.setPosition(targetPosition);
+    }
+
+    public void GrabFully() {
+        telemetry.addData("Subsystem method", "Grab");
+
+        double currPosition;
+
+        do {
+            currPosition = Release();
+            sleep(_cycleMiliseconds);
+        } while (currPosition > _minPosition);
     }
 }

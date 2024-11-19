@@ -6,14 +6,12 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import edu.edina.definitions.BotBits;
 
-public class FlagSubsystem {
+public class FlagSubsystem extends SubsystemBase {
     HardwareMap map;
     Telemetry telemetry;
 
     // Define class members
     Servo FlagServo;
-    double  position = _minPosition;
-    boolean rampUp = true;
 
     static final double _increment      = 0.01;     // amount to slew servo each CYCLE_MS cycle
     static final int _cycleMiliseconds  =   50;     // period of each cycle
@@ -25,39 +23,56 @@ public class FlagSubsystem {
         telemetry = telemetryReference;
 
         FlagServo = map.get(Servo.class, BotBits.FlagServo);
-
     }
 
-    public void Raise(){
+    public double Raise() {
         telemetry.addData("Subsystem method", "Raise");
 
-        position = FlagServo.getPosition();
-        telemetry.addData("Servo Position", position);
+        double currPosition = FlagServo.getPosition();
+        double targetPosition = currPosition + _increment;
 
-        while (position < _maxPosition){
-            position += _increment;
-
-            if (position >= _maxPosition) {
-                position = _maxPosition;
-            }
+        if (targetPosition >= _maxPosition) {
+            targetPosition = _maxPosition;
         }
 
-        FlagServo.setPosition(position);
+        FlagServo.setPosition(targetPosition);
+
+        telemetry.addData("Servo Position:     ", targetPosition);
+        telemetry.update();
+
+        return targetPosition;
     }
 
-    public void Lower() {
+    public void RaiseFully() {
+        telemetry.addData("Subsystem method", "Raise");
+
+        double currPosition;
+
+        do {
+            currPosition = Raise();
+            sleep(_cycleMiliseconds);
+        } while (currPosition < _maxPosition);
+    }
+
+    public double Lower() {
         telemetry.addData("Subsystem method", "Lower");
 
-        position = FlagServo.getPosition();
-        telemetry.addData("Servo Position", position);
+        double currPosition = FlagServo.getPosition();
+        double targetPosition = currPosition + _increment;
 
-        while (position > _minPosition) {
-            position -= _increment;
-            if (position <= _minPosition) {
-                position = _minPosition;
+        while (currPosition > _minPosition) {
+
+            currPosition -= _increment;
+
+            if (currPosition <= _minPosition) {
+                currPosition = _minPosition;
             }
+
+            FlagServo.setPosition(currPosition);
+
+            sleep(50);
         }
 
-        FlagServo.setPosition(position);
+        return currPosition;
     }
 }
