@@ -229,7 +229,7 @@ public class ArmSubsystem extends SubsystemBase{
             targetPosition = _maxPosition;
         }
 
-        GrabServo.setPosition(currPosition);
+        GrabServo.setPosition(targetPosition);
 
         telemetry.addData("Servo Position", position);
         telemetry.update();
