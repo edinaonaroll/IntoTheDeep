@@ -79,7 +79,7 @@ public class TeleOpIntoTheDeep extends LinearOpMode
             }
 
             if (raiseArmFully){
-                armSubsystem.RaiseFully();
+                armSubsystem.RaiseFully(.5);
             }
 
             telemetry.addData("Run Time: ", runtime.time());

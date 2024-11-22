@@ -10,7 +10,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import edu.edina.definitions.BotBits;
 import edu.edina.definitions.MotorSpeed;
-import edu.edina.definitions.SubsystemInitMode;
+import edu.edina.definitions.SubsystemInitMode
+        ;
 
 public class ArmSubsystem extends SubsystemBase {
 
@@ -23,6 +24,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     private Servo GrabServo = null;
     double  position = _minPosition;
+    int armRaiseIncrement = 10;
+    int armExtendIncrement = 10;
     boolean rampUp = true;
 
     // grabber limits
@@ -33,6 +36,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     // arm raise limits
     static final int _armRaiseMaxClicks = 360;
+    static final int _armRaiseMinClicks =  0;
 
     // arm extend limits
     static final int _armExtendMaxClicks = 200;
@@ -164,40 +168,56 @@ public class ArmSubsystem extends SubsystemBase {
 
 
 
-    public void Raise (int clicks) {
+    public double Raise (double motorPower) {
         telemetry.addData("Arm subsystem method", "Extend");
-        // TODO:  Get current arm position
 
-        // TODO:  Get target position by adding how much to raise and current positions
+        int currPosition = ArmLiftMotor.getCurrentPosition();
+        int targetPosition = currPosition + armRaiseIncrement;
 
-        // TODO:  If target position is too high, then set a lower value
+        if (targetPosition>=_armRaiseMaxClicks) {
+            targetPosition = _armRaiseMaxClicks;
+        }
 
-        // TODO:  Set motor power
+        ArmLiftMotor.setPower(motorPower);
 
-        // TODO:  Set target position
+        ArmLiftMotor.setTargetPosition(targetPosition);
+        return targetPosition;
     }
 
-    public void RaiseFully () {
+    public double RaiseFully (double motorPower) {
         telemetry.addData("Arm subsystem method", "ExtendFully");
+        double currPosition;
 
-//        ArmLiftMotor.setPower(MotorSpeed.Percent_10);
-        ArmLiftMotor.setPower(.4);
-        ArmLiftMotor.setTargetPosition(_armRaiseMaxClicks);
+        do{
+            currPosition = Raise(motorPower);
+            sleep(_cycleMiliseconds);
+        } while (currPosition < _armRaiseMaxClicks);
+        return currPosition;
     }
 
-    // TODO:  take in paramater of how many clicks to raise (see Raise)
-    public void Lower () {
-        telemetry.addData("Arm subsystem method", "Retract");
-        // TODO:  Make arm retract the specified amount
+
+    public double Lower (double motorPower) {
+        int currPosition = ArmLiftMotor.getCurrentPosition();
+        int targetPosition = currPosition - armRaiseIncrement;
+
+        if (targetPosition<_armRaiseMinClicks){
+            targetPosition = _armRaiseMinClicks;
+        }
+        ArmLiftMotor.setPower(motorPower);
+
+        ArmLiftMotor.setTargetPosition(targetPosition);
+        return currPosition;
     }
 
-    // TODO:  take in motor speed as a parameter to pass to the motor
-    public void LowerFully () {
+    public double LowerFully (double motorPower) {
         telemetry.addData("Arm subsystem method", "LowerFully");
-        // TODO:  Make arm lower all the way
-//        ArmLiftMotor.setPower(MotorSpeed.Percent_10);
-//        ArmLiftMotor.setPower(.4);
-//        ArmLiftMotor.setTargetPosition(0);
+        double currPosition;
+
+        do {
+            currPosition = Lower(motorPower);
+            sleep(_cycleMiliseconds);
+        } while(currPosition > _armRaiseMinClicks);
+        return currPosition;
     }
 
 

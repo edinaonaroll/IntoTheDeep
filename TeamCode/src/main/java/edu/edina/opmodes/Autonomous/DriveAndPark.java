@@ -36,13 +36,13 @@ public class DriveAndPark extends LinearOpMode{
         chassisSubsystem.DriveForward_Inches(48, MotorSpeed.Percent_50);
 
         // lift arm up
-        armsubsystem.RaiseFully();
+        armsubsystem.RaiseFully(.5);
         // hook specimen onto bar
         armsubsystem.ExtendFully();
         // release specimen
         armsubsystem.Release();
         armsubsystem.RetractFully();
-        armsubsystem.LowerFully();
+        armsubsystem.LowerFully(.5);
         // back up
         chassisSubsystem.DriveBack_Inches(40, MotorSpeed.Percent_50);
         // lower arm to lower bar or all the way

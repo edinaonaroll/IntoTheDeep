@@ -25,39 +25,51 @@ public class FlagSubsystem extends SubsystemBase {
         telemetry = telemetryReference;
 
         FlagServo = map.get(Servo.class, BotBits.FlagServo);
-
     }
 
-    public void Raise(){
-        telemetry.addData("Subsystem method", "Raise");
+    public double Raise(){
 
         position = FlagServo.getPosition();
+        position += _increment;
         telemetry.addData("Servo Position", position);
 
-        while (position < _maxPosition){
-            position += _increment;
-
-            if (position >= _maxPosition) {
-                position = _maxPosition;
-            }
-            FlagServo.setPosition(position);
+        if (position >= _maxPosition) {
+            position = _maxPosition;
         }
+        FlagServo.setPosition(position);
 
+        return position;
     }
 
-    public void Lower() {
-        telemetry.addData("Subsystem method", "Lower");
+    public void RaiseFully(){
+        telemetry.addData("Subsystem method", "RaiseFully");
+        double currPosition;
+        do {
+            currPosition = Raise();
+            sleep(_cycleMiliseconds);
+        } while (currPosition < _maxPosition);
+    }
+
+    public double Lower() {
 
         position = FlagServo.getPosition();
+        position -= _increment;
         telemetry.addData("Servo Position", position);
 
-        while (position > _minPosition) {
-            position -= _increment;
-            if (position <= _minPosition) {
-                position = _minPosition;
-            }
+        if (position <= _minPosition) {
+            position = _minPosition;
         }
 
         FlagServo.setPosition(position);
+
+        return position;
+    }
+    public void LowerFully(){
+        telemetry.addData("Subsystem method", "LowerFully");
+        double currPosition;
+        do {
+            currPosition = Lower();
+            sleep(_cycleMiliseconds);
+        } while (currPosition > _minPosition);
     }
 }
