@@ -24,8 +24,8 @@ public class ChassisSubsystem extends SubsystemBase {
     private int frontRightDriveMotorPosition = 0;
     private int backRightDriveMotorPosition = 0;
 
-    private double clicksPerInch = 52; // 54 best for slow speed
-    private double clicksPerDeg = 14; // empirically measured
+    private final double clicksPerInch = 52; // 54 best for slow speed
+    private final double clicksPerDeg = 14; // empirically measured
 
     public ChassisSubsystem(HardwareMap hardwareMapReference, Telemetry telemetryReference, SubsystemInitMode initMode) {
         map = hardwareMapReference;
@@ -184,7 +184,6 @@ public class ChassisSubsystem extends SubsystemBase {
     public void DriveRight_Cubits(int cubits, double speed){
         DriveRight_Inches(cubits / 18, speed);
     }
-
 
     public void TurnLeft(int degrees, double speed){
         GetMotorPositions();
