@@ -9,7 +9,7 @@ import edu.edina.definitions.BotBits;
 import edu.edina.definitions.MotorSpeed;
 import edu.edina.definitions.SubsystemInitMode;
 
-public class ChassisSubsystem {
+public class ChassisSubsystem extends SubsystemBase {
 
     HardwareMap map;
     Telemetry telemetry;

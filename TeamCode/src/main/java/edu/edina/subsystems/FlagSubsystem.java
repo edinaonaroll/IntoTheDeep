@@ -6,7 +6,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import edu.edina.definitions.BotBits;
 
-public class FlagSubsystem {
+public class FlagSubsystem extends SubsystemBase {
     HardwareMap map;
     Telemetry telemetry;
 
@@ -40,9 +40,9 @@ public class FlagSubsystem {
             if (position >= _maxPosition) {
                 position = _maxPosition;
             }
+            FlagServo.setPosition(position);
         }
 
-        FlagServo.setPosition(position);
     }
 
     public void Lower() {
