@@ -9,8 +9,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import edu.edina.definitions.BotBits;
-import edu.edina.definitions.SubsystemInitMode
-        ;
+import edu.edina.definitions.SubsystemInitMode;
 
 public class ArmSubsystem extends SubsystemBase {
 
@@ -21,20 +20,13 @@ public class ArmSubsystem extends SubsystemBase {
     private DcMotor ArmExtendMotor = null;
     private TouchSensor ArmTouchSensor = null;
 
-    private Servo GrabServo = null;
-    double  position = _minPosition;
     int armRaiseIncrement = 10;
     int armExtendIncrement = 10;
     boolean rampUp = true;
-
-    // grabber limits
-    static final double _increment      = 0.01;     // amount to slew servo each CYCLE_MS cycle
     static final int _cycleMiliseconds  =   50;     // period of each cycle
-    static final double _maxPosition    =  1.0;     // Maximum rotational position
-    static final double _minPosition    =  0.42;    // Minimum rotational position
 
     // arm raise limits
-    static final int _armRaiseMaxClicks = 360;
+    static final int _armRaiseMaxClicks = 350;
     static final int _armRaiseMinClicks =  0;
 
     // arm extend limits
@@ -47,7 +39,6 @@ public class ArmSubsystem extends SubsystemBase {
         ArmLiftMotor = map.get(DcMotor.class, BotBits.ArmLiftMotor);
         ArmExtendMotor = map.get(DcMotor.class, BotBits.ArmExtendMotor);
         ArmTouchSensor = map.get(TouchSensor.class, BotBits.ArmTouchSensor);
-        GrabServo = map.get(Servo.class, BotBits.GrabServo);
 
         if (initMode == SubsystemInitMode.Autonomous){
             InitAutonomous();
@@ -55,6 +46,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     private void InitAutonomous(){
+
         ArmLiftMotor.setTargetPosition(0);
         ArmExtendMotor.setTargetPosition(0);
 
@@ -93,9 +85,22 @@ public class ArmSubsystem extends SubsystemBase {
                 if (currentPosition < _armRaiseMaxClicks) {
                     Power = yInput / PowerFactor;
                 }
+                else {
+                    ArmLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                }
             } else if (yInput < 0) {
                 if (!ArmTouchSensor.isPressed()){
-                    Power = .02;
+                    //Power = .02;
+                    if (currentPosition > 300) {
+                        ArmLiftMotor.setPower(yInput);
+                    }
+                    else if (currentPosition > 50) {
+                        ArmLiftMotor.setPower(.02);
+                    }
+                    else if (currentPosition > 20) {
+                        ArmLiftMotor.setPower(.15);
+                    }
+                    ArmLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
                 }
             }
 
@@ -105,9 +110,8 @@ public class ArmSubsystem extends SubsystemBase {
             // if the arm is coming down, brake will stop it from going *UP*.
             // set the power to a low 'going up' value, so that brake will keep it from going down.
             ArmLiftMotor.setPower(.05);
+            ArmLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
-
-        ArmLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         telemetry.addData("ArmLiftMotor Power", ArmLiftMotor.getPower());
         telemetry.addData("ArmLiftMotor Start Position", currentPosition);
@@ -217,42 +221,5 @@ public class ArmSubsystem extends SubsystemBase {
         } while(currPosition > _armRaiseMinClicks);
 
         return currPosition;
-    }
-
-
-
-    public void Release () {
-        telemetry.addData("Arm subsystem method", "Grab");
-
-        position = GrabServo.getPosition();
-        telemetry.addData("Servo Position", position);
-
-        while (position < _maxPosition) {
-            position += _increment;
-
-            if (position >= _maxPosition) {
-                position = _maxPosition;
-            }
-        }
-
-        GrabServo.setPosition(position);
-    }
-
-    public void Grab() {
-        telemetry.addData("Arm subsystem method", "Release");
-        telemetry.addData("Subsystem method", "Lower");
-
-        position = GrabServo.getPosition();
-        telemetry.addData("Servo Position", position);
-
-        while (position > _minPosition) {
-            position -= _increment;
-
-            if (position <= _minPosition) {
-                position = _minPosition;
-            }
-        }
-
-        GrabServo.setPosition(position);
     }
 }

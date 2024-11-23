@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import edu.edina.definitions.SubsystemInitMode;
 import edu.edina.subsystems.ArmSubsystem;
+import edu.edina.subsystems.GrabberSubsystem;
 import edu.edina.subsystems.ChassisSubsystem;
 import edu.edina.subsystems.FlagSubsystem;
 
@@ -22,6 +23,7 @@ public class Autonomolus_v1 extends LinearOpMode{
         ArmSubsystem armsubsystem = new ArmSubsystem(hardwareMap, telemetry, SubsystemInitMode.Autonomous);
         ChassisSubsystem chassisSubsystem = new ChassisSubsystem(hardwareMap, telemetry, SubsystemInitMode.Autonomous);
         FlagSubsystem flagSubsystem = new FlagSubsystem(hardwareMap, telemetry);
+        GrabberSubsystem grabberSubsystem = new GrabberSubsystem(hardwareMap, telemetry);
 
         flagSubsystem.Lower();
 
@@ -39,7 +41,7 @@ public class Autonomolus_v1 extends LinearOpMode{
         // hook specimen onto bar
         armsubsystem.ExtendFully();
         // release specimen
-        armsubsystem.Release();
+        grabberSubsystem.Release();
         armsubsystem.RetractFully();
         armsubsystem.LowerFully(.5);
         // back up
