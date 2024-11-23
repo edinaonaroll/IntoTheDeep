@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import edu.edina.definitions.BotBits;
-import edu.edina.definitions.MotorSpeed;
 import edu.edina.definitions.SubsystemInitMode;
 
 public class ChassisSubsystem extends SubsystemBase {
@@ -118,7 +117,7 @@ public class ChassisSubsystem extends SubsystemBase {
         SetMotorSpeed(speed);
         SetMotorPositions();
         WriteTelemetry("Move Forward");
-        SetMotorSpeed(MotorSpeed.Percent_0);
+        SetMotorSpeed(0);
     }
 
     public void DriveBack_Inches(int inches, double speed){
@@ -134,7 +133,7 @@ public class ChassisSubsystem extends SubsystemBase {
         SetMotorSpeed(speed);
         SetMotorPositions();
         WriteTelemetry("Move Backwards");
-        SetMotorSpeed(MotorSpeed.Percent_0);
+        SetMotorSpeed(0);
     }
 
     public void DriveLeft_Inches(int inches, double speed){
@@ -150,7 +149,7 @@ public class ChassisSubsystem extends SubsystemBase {
         SetMotorSpeed(speed);
         SetMotorPositions();
         WriteTelemetry("Move Left");
-        SetMotorSpeed(MotorSpeed.Percent_0);
+        SetMotorSpeed(0);
     }
 
     public void DriveRight_Inches(int inches, double speed){
@@ -166,7 +165,7 @@ public class ChassisSubsystem extends SubsystemBase {
         SetMotorSpeed(speed);
         SetMotorPositions();
         WriteTelemetry("Move Right");
-        SetMotorSpeed(MotorSpeed.Percent_0);
+        SetMotorSpeed(0);
     }
 
     public void DriveForward_Cubits(int cubits, double speed){
@@ -197,7 +196,7 @@ public class ChassisSubsystem extends SubsystemBase {
         SetMotorSpeed(speed);
         SetMotorPositions();
         WriteTelemetry("Turn Left");
-        SetMotorSpeed(MotorSpeed.Percent_0);
+        SetMotorSpeed(0);
     }
 
     public void TurnRight(int degrees, double speed){
@@ -212,7 +211,7 @@ public class ChassisSubsystem extends SubsystemBase {
         SetMotorSpeed(speed);
         SetMotorPositions();
         WriteTelemetry("Turn Right");
-        SetMotorSpeed(MotorSpeed.Percent_0);
+        SetMotorSpeed(0);
     }
 
     private void GetMotorPositions(){

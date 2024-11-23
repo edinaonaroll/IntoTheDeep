@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import edu.edina.definitions.BotBits;
-import edu.edina.definitions.MotorSpeed;
 import edu.edina.definitions.SubsystemInitMode
         ;
 
@@ -32,7 +31,7 @@ public class ArmSubsystem extends SubsystemBase {
     static final double _increment      = 0.01;     // amount to slew servo each CYCLE_MS cycle
     static final int _cycleMiliseconds  =   50;     // period of each cycle
     static final double _maxPosition    =  1.0;     // Maximum rotational position
-    static final double _minPosition    =  0.42;     // Minimum rotational position
+    static final double _minPosition    =  0.42;    // Minimum rotational position
 
     // arm raise limits
     static final int _armRaiseMaxClicks = 360;
@@ -169,7 +168,7 @@ public class ArmSubsystem extends SubsystemBase {
         int currPosition = ArmLiftMotor.getCurrentPosition();
         int targetPosition = currPosition + armRaiseIncrement;
 
-        if (targetPosition>=_armRaiseMaxClicks) {
+        if (targetPosition >= _armRaiseMaxClicks) {
             targetPosition = _armRaiseMaxClicks;
         }
 
@@ -179,12 +178,12 @@ public class ArmSubsystem extends SubsystemBase {
         return targetPosition;
     }
 
-    public double RaiseFully (double motorPower) {
+    public double RaiseFully(double motorPower) {
         telemetry.addData("Arm subsystem method", "ExtendFully");
 
         double currPosition;
 
-        do{
+        do {
             currPosition = Raise(motorPower);
             sleep(_cycleMiliseconds);
         } while (currPosition < _armRaiseMaxClicks);
@@ -197,7 +196,7 @@ public class ArmSubsystem extends SubsystemBase {
         int currPosition = ArmLiftMotor.getCurrentPosition();
         int targetPosition = currPosition - armRaiseIncrement;
 
-        if (targetPosition<_armRaiseMinClicks){
+        if (targetPosition < _armRaiseMinClicks){
             targetPosition = _armRaiseMinClicks;
         }
 
@@ -228,7 +227,7 @@ public class ArmSubsystem extends SubsystemBase {
         position = GrabServo.getPosition();
         telemetry.addData("Servo Position", position);
 
-        while (position < _maxPosition){
+        while (position < _maxPosition) {
             position += _increment;
 
             if (position >= _maxPosition) {
@@ -239,7 +238,7 @@ public class ArmSubsystem extends SubsystemBase {
         GrabServo.setPosition(position);
     }
 
-    public void Grab(){
+    public void Grab() {
         telemetry.addData("Arm subsystem method", "Release");
         telemetry.addData("Subsystem method", "Lower");
 
@@ -248,6 +247,7 @@ public class ArmSubsystem extends SubsystemBase {
 
         while (position > _minPosition) {
             position -= _increment;
+
             if (position <= _minPosition) {
                 position = _minPosition;
             }

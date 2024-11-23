@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import edu.edina.definitions.MotorSpeed;
 import edu.edina.definitions.SubsystemInitMode;
 import edu.edina.subsystems.ArmSubsystem;
 import edu.edina.subsystems.ChassisSubsystem;
@@ -33,7 +32,7 @@ public class DriveAndPark extends LinearOpMode{
         flagSubsystem.Raise();
 
         // drive forward 2 feet
-        chassisSubsystem.DriveForward_Inches(48, MotorSpeed.Percent_50);
+        chassisSubsystem.DriveForward_Inches(48, .5);
 
         // lift arm up
         armsubsystem.RaiseFully(.5);
@@ -44,11 +43,11 @@ public class DriveAndPark extends LinearOpMode{
         armsubsystem.RetractFully();
         armsubsystem.LowerFully(.5);
         // back up
-        chassisSubsystem.DriveBack_Inches(40, MotorSpeed.Percent_50);
+        chassisSubsystem.DriveBack_Inches(40, .5);
         // lower arm to lower bar or all the way
 
         // strafe to observation zone
-        chassisSubsystem.DriveRight_Inches(60, MotorSpeed.Percent_50);
+        chassisSubsystem.DriveRight_Inches(60, .5);
 
 
         // drive to submersible and hang starting specimen
