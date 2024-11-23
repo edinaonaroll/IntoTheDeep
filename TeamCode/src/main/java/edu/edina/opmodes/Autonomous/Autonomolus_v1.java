@@ -10,7 +10,7 @@ import edu.edina.subsystems.ChassisSubsystem;
 import edu.edina.subsystems.FlagSubsystem;
 
 @TeleOp(name= "DriveAndPark", group= "Autonomous")
-public class DriveAndPark extends LinearOpMode{
+public class Autonomolus_v1 extends LinearOpMode{
 
     private ElapsedTime runtime = new ElapsedTime();
 
