@@ -207,7 +207,7 @@ public class ArmSubsystem extends SubsystemBase {
         ArmLiftMotor.setPower(motorPower);
         ArmLiftMotor.setTargetPosition(targetPosition);
 
-        return currPosition;
+        return targetPosition;
     }
 
     public double LowerFully (double motorPower) {

@@ -1,14 +1,13 @@
 package edu.edina.subsystems;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import java.lang.annotation.Target;
+
 import edu.edina.definitions.BotBits;
-import edu.edina.definitions.SubsystemInitMode;
 
 public class GrabberSubsystem extends SubsystemBase {
 
@@ -23,6 +22,8 @@ public class GrabberSubsystem extends SubsystemBase {
     static final double _maxPosition    =  1.0;     // Maximum rotational position
     static final double _minPosition    =  0.432;    // larger number is more open
 
+    static final int _cycleMiliseconds  =   50;
+
     public GrabberSubsystem(HardwareMap hardwareMapReference, Telemetry telemetryReference) {
         map = hardwareMapReference;
         telemetry = telemetryReference;
@@ -31,38 +32,60 @@ public class GrabberSubsystem extends SubsystemBase {
 
 
 
-    public void Release () {
+    public double Release () {
         telemetry.addData("Arm subsystem method", "Grab");
 
-        position = GrabServo.getPosition();
+        double position = GrabServo.getPosition();
         telemetry.addData("Servo Position", position);
+        double targetposition = position + _increment;
 
-        while (position < _maxPosition) {
-            position += _increment;
-
-            if (position >= _maxPosition) {
-                position = _maxPosition;
-            }
+        if (targetposition >= _maxPosition) {
+            targetposition = _maxPosition;
         }
 
-        GrabServo.setPosition(position);
+        GrabServo.setPosition(targetposition);
+        return targetposition;
     }
 
-    public void Grab() {
-        telemetry.addData("Arm subsystem method", "Release");
-        telemetry.addData("Subsystem method", "Lower");
+    public double ReleaseFully() {
+        telemetry.addData("Grabber subsystem method", "ReleaseFully");
 
-        position = GrabServo.getPosition();
+        double currPosition;
+
+        do {
+            currPosition = Release();
+            sleep(_cycleMiliseconds);
+        } while (currPosition < _maxPosition);
+
+        return currPosition;
+    }
+
+    public double Grab() {
+        telemetry.addData("Grabber subsystem method", "Grab");
+
+        double position = GrabServo.getPosition();
         telemetry.addData("Servo Position", position);
+        double targetposition = position - _increment;
 
-        while (position > _minPosition) {
-            position -= _increment;
-
-            if (position <= _minPosition) {
-                position = _minPosition;
-            }
+        if (targetposition <= _minPosition) {
+            targetposition = _minPosition;
         }
 
-        GrabServo.setPosition(position);
+        GrabServo.setPosition(targetposition);
+        
+        return targetposition;
+    }
+
+    public double GrabFully () {
+        telemetry.addData("Arm subsystem method", "GrabFully");
+
+        double currPosition;
+
+        do {
+            currPosition = Grab();
+            sleep(_cycleMiliseconds);
+        } while(currPosition > _minPosition);
+
+        return currPosition;
     }
 }
