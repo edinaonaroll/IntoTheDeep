@@ -11,40 +11,55 @@ public class FlagSubsystem extends SubsystemBase {
     Telemetry telemetry;
 
     // Define class members
-    Servo FlagServo;
+    Servo FlagServoRight;
+    Servo FlagServoLeft;
+    double  positionRight = _minPosition;
+    double  positionLeft = _minPosition;
 
-    static final double _increment      = 0.01;     // amount to slew servo each CYCLE_MS cycle
-    static final int _cycleMiliseconds  =   50;     // period of each cycle
-    static final double _maxPosition    =  1.0;     // Maximum rotational position
-    static final double _minPosition    =  0.0;     // Minimum rotational position
+    static final double _increment          = 0.01;     // amount to slew servo each CYCLE_MS cycle
+    static final int    _cycleMiliseconds   =   50;     // period of each cycle
+    static final double _maxPosition        =  1.0;     // Maximum rotational position
+    static final double _minPosition        =  0.0;     // Minimum rotational position
 
     public FlagSubsystem(HardwareMap hardwareMapReference, Telemetry telemetryReference) {
         map = hardwareMapReference;
         telemetry = telemetryReference;
 
-        FlagServo = map.get(Servo.class, BotBits.FlagServo);
+        FlagServoLeft = map.get(Servo.class, BotBits.FlagServoLeft);
+        FlagServoRight = map.get(Servo.class, BotBits.FlagServoRight);
+
+        FlagServoLeft.setDirection(Servo.Direction.FORWARD);
+        FlagServoRight.setDirection(Servo.Direction.FORWARD);
     }
 
-    public double Raise() {
-        telemetry.addData("Subsystem method", "Raise");
+    public double Raise(){
+        positionRight = FlagServoRight.getPosition();
+        positionLeft = FlagServoLeft.getPosition();
 
-        double currPosition = FlagServo.getPosition();
-        double targetPosition = currPosition + _increment;
+        positionRight += _increment;
+        positionLeft += _increment;
 
-        if (targetPosition >= _maxPosition) {
-            targetPosition = _maxPosition;
+        telemetry.addData("Servo Position", positionLeft);
+
+        if (positionRight >= _maxPosition) {
+            positionRight = _maxPosition;
         }
 
-        FlagServo.setPosition(targetPosition);
+        if (positionLeft >= _maxPosition) {
+            positionLeft = _maxPosition;
+        }
 
-        telemetry.addData("Servo Position:     ", targetPosition);
-        telemetry.update();
+        FlagServoRight.setPosition(positionRight);
+        FlagServoLeft.setPosition(positionLeft);
 
-        return targetPosition;
+        telemetry.addData("FlagServoRight position: ", positionRight);
+        telemetry.addData("FlagServoLeft position: ", positionLeft);
+
+        return positionLeft;
     }
 
-    public void RaiseFully() {
-        telemetry.addData("Subsystem method", "Raise");
+    public void RaiseFully(){
+        telemetry.addData("Subsystem method", "RaiseFully");
 
         double currPosition;
 
@@ -55,24 +70,39 @@ public class FlagSubsystem extends SubsystemBase {
     }
 
     public double Lower() {
-        telemetry.addData("Subsystem method", "Lower");
+        positionRight = FlagServoRight.getPosition();
+        positionLeft = FlagServoLeft.getPosition();
 
-        double currPosition = FlagServo.getPosition();
-        double targetPosition = currPosition + _increment;
+        positionRight -= _increment;
+        positionLeft -= _increment;
 
-        while (currPosition > _minPosition) {
+        telemetry.addData("Servo Position", positionLeft);
 
-            currPosition -= _increment;
-
-            if (currPosition <= _minPosition) {
-                currPosition = _minPosition;
-            }
-
-            FlagServo.setPosition(currPosition);
-
-            sleep(50);
+        if (positionLeft <= _minPosition) {
+            positionLeft = _minPosition;
         }
 
-        return currPosition;
+        if (positionRight <= _minPosition) {
+            positionRight = _minPosition;
+        }
+
+        FlagServoLeft.setPosition(positionLeft);
+        FlagServoRight.setPosition(positionRight);
+
+        telemetry.addData("FlagServoRight position: ", positionRight);
+        telemetry.addData("FlagServoLeft position: ", positionLeft);
+
+        return positionLeft;
+    }
+
+    public void LowerFully(){
+        telemetry.addData("Subsystem method", "LowerFully");
+
+        double currPosition;
+
+        do {
+            currPosition = Lower();
+            sleep(_cycleMiliseconds);
+        } while (currPosition > _minPosition);
     }
 }

@@ -10,6 +10,7 @@ import edu.edina.definitions.BotBits;
 import edu.edina.definitions.SubsystemInitMode;
 import edu.edina.subsystems.ArmSubsystem;
 import edu.edina.subsystems.FlagSubsystem;
+import edu.edina.subsystems.GrabberSubsystem;
 
 @TeleOp(name= "TestOpMode", group= "Test")
 public class TestOpMode extends LinearOpMode {
@@ -48,8 +49,9 @@ public class TestOpMode extends LinearOpMode {
         ArmLiftMotor = hardwareMap.get(DcMotor.class, BotBits.ArmLiftMotor);
         ArmExtendMotor = hardwareMap.get(DcMotor.class, BotBits.ArmExtendMotor);
 
-        FlagSubsystem flag = new FlagSubsystem(hardwareMap, telemetry);
-        ArmSubsystem Arm = new ArmSubsystem(hardwareMap, telemetry , SubsystemInitMode.TeleOp);
+        ArmSubsystem armSubsystem = new ArmSubsystem(hardwareMap, telemetry , SubsystemInitMode.TeleOp);
+        FlagSubsystem flagSubsystem = new FlagSubsystem(hardwareMap, telemetry);
+        GrabberSubsystem grabberSubsystem = new GrabberSubsystem(hardwareMap, telemetry);
 
         NumHardwareElements = 8;
 
@@ -74,7 +76,7 @@ public class TestOpMode extends LinearOpMode {
             telemetry.addData("leftStickInput", yInput);
 
             switch (SelectedItem){
-                case 1:
+                case 4:
                     if(yInput>0){
                         ArmLiftMotor.setPower(yInput/3);
                         ArmLiftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -99,24 +101,24 @@ public class TestOpMode extends LinearOpMode {
 
                      if (yInput > 0){
                         telemetry.addData("Action","Grab");
-                        Arm.Grab();
+                        grabberSubsystem.Grab();
                     }
                     else if (yInput < 0) {
                         telemetry.addData("Action","Release");
-                        Arm.Release();
+                        grabberSubsystem.Release();
                     }
 
                     break;
-                case 4:
+                case 1:
                     telemetry.addData("SelectedItem","Flag Servo");
 
                     if (yInput > 0){
                         telemetry.addData("Action","Raise flag");
-                        flag.Raise();
+                        flagSubsystem.Raise();
                     }
                     else if (yInput < 0) {
                         telemetry.addData("Action","Lower flag");
-                        flag.Lower();
+                        flagSubsystem.Lower();
                     }
 
                     break;

@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import edu.edina.definitions.SubsystemInitMode;
 import edu.edina.subsystems.ArmSubsystem;
+import edu.edina.subsystems.GrabberSubsystem;
 import edu.edina.subsystems.ChassisSubsystem;
 import edu.edina.subsystems.FlagSubsystem;
 
@@ -22,11 +23,14 @@ public class TeleOpIntoTheDeep extends LinearOpMode
         ArmSubsystem armSubsystem = new ArmSubsystem (hardwareMap, telemetry, SubsystemInitMode.TeleOp);
         ChassisSubsystem chassisSubsystem = new ChassisSubsystem (hardwareMap, telemetry, SubsystemInitMode.TeleOp);
         FlagSubsystem flagSubsystem = new FlagSubsystem (hardwareMap, telemetry);
+        GrabberSubsystem grabberSubsystem = new GrabberSubsystem (hardwareMap, telemetry);
+
+        grabberSubsystem.GrabFully();
 
         telemetry.addData("Status", "Initialized");
 
         waitForStart();
-
+        grabberSubsystem.ReleaseFully();
         runtime.reset();
 
         while (opModeIsActive())
@@ -39,7 +43,7 @@ public class TeleOpIntoTheDeep extends LinearOpMode
             }
 
             if (currTime > 2 && currTime < 60) {
-                flagSubsystem.RaiseFully();
+                flagSubsystem.Raise();
             }
 
 
@@ -73,13 +77,13 @@ public class TeleOpIntoTheDeep extends LinearOpMode
             armSubsystem.ArmExtendRetractByController(armExtendInput, armSlowMode);
 
             if (clawOpenInput){
-                armSubsystem.Release();
+                grabberSubsystem.Release();
             } else if (clawCloseInput){
-                armSubsystem.Grab();
+                grabberSubsystem.Grab();
             }
 
             if (raiseArmFully){
-                armSubsystem.RaiseFully(.2);
+                //armSubsystem.RaiseFully(.5);
             }
 
             telemetry.addData("Run Time: ", runtime.time());

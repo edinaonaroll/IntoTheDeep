@@ -8,12 +8,13 @@ public class BotBits {
     public static String BackRightDriveMotor = "back right";             //port 3
 
     // other mechanical parts
-    public static String FlagServo = "flagServo";
+    public static String FlagServoLeft = "FlagServoLeft";
+    public static String FlagServoRight = "FlagServoRight";
+
 
     // sensors
     public static String ArmTouchSensor = "Touch Sensor Middle";
     public static String ColorSensor = "Color Sensor";
-    public static String LED = "LED";
     public static String DistanceSensor = "Distance Sensor";
 
     // arm

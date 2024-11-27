@@ -6,10 +6,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import edu.edina.definitions.BotBits;
-import edu.edina.definitions.MotorSpeed;
 import edu.edina.definitions.SubsystemInitMode;
 
-public class ChassisSubsystem {
+public class ChassisSubsystem extends SubsystemBase {
 
     HardwareMap map;
     Telemetry telemetry;
@@ -24,8 +23,8 @@ public class ChassisSubsystem {
     private int frontRightDriveMotorPosition = 0;
     private int backRightDriveMotorPosition = 0;
 
-    private double clicksPerInch = 52; // 54 best for slow speed
-    private double clicksPerDeg = 14; // empirically measured
+    private final double clicksPerInch = 52; // 54 best for slow speed
+    private final double clicksPerDeg = 14; // empirically measured
 
     public ChassisSubsystem(HardwareMap hardwareMapReference, Telemetry telemetryReference, SubsystemInitMode initMode) {
         map = hardwareMapReference;
@@ -118,7 +117,7 @@ public class ChassisSubsystem {
         SetMotorSpeed(speed);
         SetMotorPositions();
         WriteTelemetry("Move Forward");
-        SetMotorSpeed(MotorSpeed.Percent_0);
+        SetMotorSpeed(0);
     }
 
     public void DriveBack_Inches(int inches, double speed){
@@ -134,7 +133,7 @@ public class ChassisSubsystem {
         SetMotorSpeed(speed);
         SetMotorPositions();
         WriteTelemetry("Move Backwards");
-        SetMotorSpeed(MotorSpeed.Percent_0);
+        SetMotorSpeed(0);
     }
 
     public void DriveLeft_Inches(int inches, double speed){
@@ -150,7 +149,7 @@ public class ChassisSubsystem {
         SetMotorSpeed(speed);
         SetMotorPositions();
         WriteTelemetry("Move Left");
-        SetMotorSpeed(MotorSpeed.Percent_0);
+        SetMotorSpeed(0);
     }
 
     public void DriveRight_Inches(int inches, double speed){
@@ -166,7 +165,7 @@ public class ChassisSubsystem {
         SetMotorSpeed(speed);
         SetMotorPositions();
         WriteTelemetry("Move Right");
-        SetMotorSpeed(MotorSpeed.Percent_0);
+        SetMotorSpeed(0);
     }
 
     public void DriveForward_Cubits(int cubits, double speed){
@@ -185,7 +184,6 @@ public class ChassisSubsystem {
         DriveRight_Inches(cubits / 18, speed);
     }
 
-
     public void TurnLeft(int degrees, double speed){
         GetMotorPositions();
 
@@ -198,7 +196,7 @@ public class ChassisSubsystem {
         SetMotorSpeed(speed);
         SetMotorPositions();
         WriteTelemetry("Turn Left");
-        SetMotorSpeed(MotorSpeed.Percent_0);
+        SetMotorSpeed(0);
     }
 
     public void TurnRight(int degrees, double speed){
@@ -213,7 +211,7 @@ public class ChassisSubsystem {
         SetMotorSpeed(speed);
         SetMotorPositions();
         WriteTelemetry("Turn Right");
-        SetMotorSpeed(MotorSpeed.Percent_0);
+        SetMotorSpeed(0);
     }
 
     private void GetMotorPositions(){
