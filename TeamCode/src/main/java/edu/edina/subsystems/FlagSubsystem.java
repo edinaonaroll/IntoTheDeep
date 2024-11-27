@@ -32,77 +32,89 @@ public class FlagSubsystem extends SubsystemBase {
         FlagServoRight.setDirection(Servo.Direction.FORWARD);
     }
 
-    public double Raise(){
-        positionRight = FlagServoRight.getPosition();
-        positionLeft = FlagServoLeft.getPosition();
+    public double RaiseLeft(){
+        return Raise(FlagServoLeft);
+    }
 
-        positionRight += _increment;
-        positionLeft += _increment;
+    public double RaiseRight(){
+        return Raise(FlagServoRight);
+    }
 
-        telemetry.addData("Servo Position", positionLeft);
+    public double Raise(Servo servo){
+        double position = servo.getPosition();
 
-        if (positionRight >= _maxPosition) {
-            positionRight = _maxPosition;
+        position += _increment;
+
+        telemetry.addData("Servo Position", position);
+
+        if (position >= _maxPosition) {
+            position = _maxPosition;
         }
 
-        if (positionLeft >= _maxPosition) {
-            positionLeft = _maxPosition;
-        }
+        servo.setPosition(position);
 
-        FlagServoRight.setPosition(positionRight);
-        FlagServoLeft.setPosition(positionLeft);
+        telemetry.addData("FlagServoRight position: ", position);
 
-        telemetry.addData("FlagServoRight position: ", positionRight);
-        telemetry.addData("FlagServoLeft position: ", positionLeft);
-
-        return positionLeft;
+        return position;
     }
 
     public void RaiseFully(){
         telemetry.addData("Subsystem method", "RaiseFully");
 
-        double currPosition;
+        double currPositionLeft;
+        double currPositionRight;
 
         do {
-            currPosition = Raise();
+            currPositionLeft = Raise(FlagServoLeft);
             sleep(_cycleMiliseconds);
-        } while (currPosition < _maxPosition);
+        } while (currPositionLeft < _maxPosition);
+
+        do {
+            currPositionRight = Raise(FlagServoRight);
+            sleep(_cycleMiliseconds);
+        } while (currPositionRight < _maxPosition);
     }
 
-    public double Lower() {
-        positionRight = FlagServoRight.getPosition();
-        positionLeft = FlagServoLeft.getPosition();
+    public double LowerLeft(){
+        return Lower(FlagServoLeft);
+    }
 
-        positionRight -= _increment;
-        positionLeft -= _increment;
+    public double LowerRight(){
+        return Lower(FlagServoRight);
+    }
 
-        telemetry.addData("Servo Position", positionLeft);
+    private double Lower(Servo servo) {
+        double position = servo.getPosition();
 
-        if (positionLeft <= _minPosition) {
-            positionLeft = _minPosition;
+        position -= _increment;
+
+        telemetry.addData("Servo Position", position);
+
+        if (position <= _minPosition) {
+            position = _minPosition;
         }
 
-        if (positionRight <= _minPosition) {
-            positionRight = _minPosition;
-        }
+        servo.setPosition(position);
 
-        FlagServoLeft.setPosition(positionLeft);
-        FlagServoRight.setPosition(positionRight);
+        telemetry.addData("FlagServoRight position: ", position);
 
-        telemetry.addData("FlagServoRight position: ", positionRight);
-        telemetry.addData("FlagServoLeft position: ", positionLeft);
-
-        return positionLeft;
+        return position;
     }
 
     public void LowerFully(){
         telemetry.addData("Subsystem method", "LowerFully");
 
-        double currPosition;
+        double currPositionLeft;
+        double currPositionRight;
 
         do {
-            currPosition = Lower();
+            currPositionLeft = Lower(FlagServoLeft);
             sleep(_cycleMiliseconds);
-        } while (currPosition > _minPosition);
+        } while (currPositionLeft > _minPosition);
+
+        do {
+            currPositionRight = Lower(FlagServoRight);
+            sleep(_cycleMiliseconds);
+        } while (currPositionRight > _minPosition);
     }
 }

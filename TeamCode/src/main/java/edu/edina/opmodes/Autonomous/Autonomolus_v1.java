@@ -25,13 +25,13 @@ public class Autonomolus_v1 extends LinearOpMode{
         FlagSubsystem flagSubsystem = new FlagSubsystem(hardwareMap, telemetry);
         GrabberSubsystem grabberSubsystem = new GrabberSubsystem(hardwareMap, telemetry);
 
-        flagSubsystem.Lower();
+        flagSubsystem.LowerLeft();
 
         telemetry.addData("Status", "Initialized");
 
         waitForStart();
 
-        flagSubsystem.Raise();
+        flagSubsystem.RaiseLeft();
 
         // drive forward 2 feet
         chassisSubsystem.DriveForward_Inches(48, .5);
@@ -58,7 +58,7 @@ public class Autonomolus_v1 extends LinearOpMode{
 
 
 
-        flagSubsystem.Lower();
+        flagSubsystem.LowerLeft();
 
         telemetry.addData("Run time: ", runtime.toString());
 

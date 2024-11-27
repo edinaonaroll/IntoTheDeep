@@ -39,16 +39,16 @@ public class TeleOpIntoTheDeep extends LinearOpMode
 
             // flag control section
             if (currTime < 1) {
-                flagSubsystem.Lower();
+                flagSubsystem.LowerLeft();
             }
 
             if (currTime > 2 && currTime < 60) {
-                flagSubsystem.Raise();
+                flagSubsystem.RaiseLeft();
             }
 
 
             if (currTime > 60) {
-                flagSubsystem.Lower();
+                flagSubsystem.LowerLeft();
             }
 
             // drive control section

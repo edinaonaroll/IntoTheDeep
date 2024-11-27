@@ -114,11 +114,13 @@ public class TestOpMode extends LinearOpMode {
 
                     if (yInput > 0){
                         telemetry.addData("Action","Raise flag");
-                        flagSubsystem.Raise();
+                        flagSubsystem.RaiseRight();
+                        flagSubsystem.RaiseLeft();
                     }
                     else if (yInput < 0) {
                         telemetry.addData("Action","Lower flag");
-                        flagSubsystem.Lower();
+                        flagSubsystem.LowerRight();
+                        flagSubsystem.LowerLeft();
                     }
 
                     break;

@@ -39,7 +39,8 @@ public class TestAutonomousOpMode extends LinearOpMode{
         telemetry.addData("Next Action: ", "Lower flag");
         telemetry.update();
 
-        flagSubsystem.Lower();
+        flagSubsystem.LowerLeft();
+        flagSubsystem.LowerRight();
 
         sleep(4000);
         telemetry.addData("Next Action: ", "Raise flag");
@@ -110,7 +111,7 @@ public class TestAutonomousOpMode extends LinearOpMode{
         telemetry.addData("Next Action: ", "Lower flag");
         telemetry.update();
 
-        flagSubsystem.Lower();
+        flagSubsystem.LowerLeft();
 
         telemetry.addData("Run time: ", runtime.toString());
 

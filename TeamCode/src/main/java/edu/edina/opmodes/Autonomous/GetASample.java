@@ -23,20 +23,20 @@ public class GetASample extends LinearOpMode{
         ChassisSubsystem chassisSubsystem = new ChassisSubsystem(hardwareMap, telemetry, SubsystemInitMode.Autonomous);
         FlagSubsystem flagSubsystem = new FlagSubsystem(hardwareMap, telemetry);
 
-        flagSubsystem.Lower();
+        flagSubsystem.LowerLeft();
 
         telemetry.addData("Status", "Initialized");
 
         waitForStart();
 
-        flagSubsystem.Raise();
+        flagSubsystem.RaiseLeft();
 
         while (opModeIsActive()) {
             // drive forward two inches
             chassisSubsystem.DriveForward_Inches(2, .5);
         }
 
-        flagSubsystem.Lower();
+        flagSubsystem.LowerLeft();
 
         runtime.reset();
     }
