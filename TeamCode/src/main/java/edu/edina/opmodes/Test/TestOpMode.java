@@ -76,7 +76,7 @@ public class TestOpMode extends LinearOpMode {
             telemetry.addData("leftStickInput", yInput);
 
             switch (SelectedItem){
-                case 1:
+                case 4:
                     if(yInput>0){
                         ArmLiftMotor.setPower(yInput/3);
                         ArmLiftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -109,7 +109,7 @@ public class TestOpMode extends LinearOpMode {
                     }
 
                     break;
-                case 4:
+                case 1:
                     telemetry.addData("SelectedItem","Flag Servo");
 
                     if (yInput > 0){

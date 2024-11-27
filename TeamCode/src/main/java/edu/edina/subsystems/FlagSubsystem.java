@@ -89,6 +89,9 @@ public class FlagSubsystem extends SubsystemBase {
         FlagServoLeft.setPosition(positionLeft);
         FlagServoRight.setPosition(positionRight);
 
+        telemetry.addData("FlagServoRight position: ", positionRight);
+        telemetry.addData("FlagServoLeft position: ", positionLeft);
+
         return positionLeft;
     }
 
