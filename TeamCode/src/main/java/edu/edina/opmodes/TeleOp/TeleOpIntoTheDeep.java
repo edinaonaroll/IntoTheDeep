@@ -25,10 +25,12 @@ public class TeleOpIntoTheDeep extends LinearOpMode
         FlagSubsystem flagSubsystem = new FlagSubsystem (hardwareMap, telemetry);
         GrabberSubsystem grabberSubsystem = new GrabberSubsystem (hardwareMap, telemetry);
 
+        grabberSubsystem.GrabFully();
+
         telemetry.addData("Status", "Initialized");
 
         waitForStart();
-
+        grabberSubsystem.ReleaseFully();
         runtime.reset();
 
         while (opModeIsActive())

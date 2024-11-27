@@ -88,23 +88,23 @@ public class ArmSubsystem extends SubsystemBase {
                 else {
                     ArmLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 }
+
+                ArmLiftMotor.setPower(Power);
             } else if (yInput < 0) {
                 if (!ArmTouchSensor.isPressed()){
                     //Power = .02;
-                    if (currentPosition > 300) {
-                        ArmLiftMotor.setPower(yInput);
+                    if (currentPosition > 170) {
+                        ArmLiftMotor.setPower(yInput *.8);
                     }
-                    else if (currentPosition > 50) {
-                        ArmLiftMotor.setPower(.02);
+                    else if (currentPosition > 60) {
+                        ArmLiftMotor.setPower(.001);
                     }
-                    else if (currentPosition > 20) {
-                        ArmLiftMotor.setPower(.15);
+                    else if (currentPosition > 30) {
+                        ArmLiftMotor.setPower(.01);
                     }
                     ArmLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
                 }
             }
-
-            ArmLiftMotor.setPower(Power);
 
         } else if (yInput == 0) {
             // if the arm is coming down, brake will stop it from going *UP*.
@@ -114,7 +114,7 @@ public class ArmSubsystem extends SubsystemBase {
         }
 
         telemetry.addData("ArmLiftMotor Power", ArmLiftMotor.getPower());
-        telemetry.addData("ArmLiftMotor Start Position", currentPosition);
+        telemetry.addData("ArmLiftMotor current Position", currentPosition);
         telemetry.addData("ArmLiftMotor ZeroPowerBehavior",ArmLiftMotor.getZeroPowerBehavior());
     }
 
