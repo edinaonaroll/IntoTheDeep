@@ -23,7 +23,7 @@ public class ChassisSubsystem extends SubsystemBase {
     private int frontRightDriveMotorPosition = 0;
     private int backRightDriveMotorPosition = 0;
 
-    private final double clicksPerInch = 52; // 54 best for slow speed
+    private final double clicksPerInch = 25;
     private final double clicksPerDeg = 14; // empirically measured
 
     public ChassisSubsystem(HardwareMap hardwareMapReference, Telemetry telemetryReference, SubsystemInitMode initMode) {
