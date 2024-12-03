@@ -73,8 +73,8 @@ public class TeleOpIntoTheDeep extends LinearOpMode
             boolean raiseArmFully = gamepad2.y;
 
 
-            armSubsystem.ArmRaiseLowerByController(armLiftInput, armSlowMode);
-            armSubsystem.ArmExtendRetractByController(armExtendInput, armSlowMode);
+            armSubsystem.ArmRaiseLowerByNumbers(armLiftInput, armSlowMode);
+            armSubsystem.ArmExtendRetractByNumbers(armExtendInput, armSlowMode);
 
             if (clawOpenInput){
                 grabberSubsystem.Release();

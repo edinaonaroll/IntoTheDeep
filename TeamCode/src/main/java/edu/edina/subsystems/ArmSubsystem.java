@@ -2,7 +2,6 @@ package edu.edina.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
@@ -22,16 +21,18 @@ public class ArmSubsystem extends SubsystemBase {
 
     int armRaiseIncrement = 10;
     int armExtendIncrement = 10;
+    int armRetractIncrement = 10;
     boolean rampUp = true;
-    static final int _cycleMiliseconds  =   50;     // period of each cycle
+    static final int _raiseCycleMiliseconds  =   30;     // period of each cycle
+    static final int _extendCycleMiliseconds  =   30;     // period of each cycle
 
     // arm raise limits
     static final int _armRaiseMaxClicks = 350;
     static final int _armRaiseMinClicks =  0;
 
     // arm extend limits
-    static final int _armExtendMaxClicks = 200;
-
+    static final int _armExtendMaxClicks = 570;
+    static final int _armExtendMinClicks = 46;
     public ArmSubsystem(HardwareMap hardwareMapReference, Telemetry telemetryReference, SubsystemInitMode initMode) {
         map = hardwareMapReference;
         telemetry = telemetryReference;
@@ -50,6 +51,8 @@ public class ArmSubsystem extends SubsystemBase {
         ArmLiftMotor.setTargetPosition(0);
         ArmExtendMotor.setTargetPosition(0);
 
+        ArmExtendMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
         ArmLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ArmExtendMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -57,7 +60,7 @@ public class ArmSubsystem extends SubsystemBase {
         ArmExtendMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public void ArmRaiseLowerByController(double yInput, boolean SlowMode){
+    public double ArmRaiseLowerByNumbers(double yInput, boolean SlowMode) {
 
         //TODO:  Update telemetry text so that shows what motor is in slow mode
         telemetry.addData("SlowMode", SlowMode);
@@ -65,6 +68,7 @@ public class ArmSubsystem extends SubsystemBase {
         double DefaultPowerFactor = 3.5;
         double PowerFactor = 0;
         double Power = 0;
+        double position=ArmLiftMotor.getCurrentPosition();
 
         // Flip value so that the arm moves in the expected direction
         yInput = -yInput;
@@ -116,14 +120,15 @@ public class ArmSubsystem extends SubsystemBase {
         telemetry.addData("ArmLiftMotor Power", ArmLiftMotor.getPower());
         telemetry.addData("ArmLiftMotor current Position", currentPosition);
         telemetry.addData("ArmLiftMotor ZeroPowerBehavior",ArmLiftMotor.getZeroPowerBehavior());
+
+        return position;
     }
 
-    public void ArmExtendRetractByController(double Input, boolean SlowMode) {
-
-        telemetry.addData("SlowMode",SlowMode);
+    public double ArmExtendRetractByNumbers(double Input, boolean SlowMode) {
 
         double DefaultPowerFactor = 1.5;
         double PowerFactor = 0;
+        double currentPosition = ArmExtendMotor.getCurrentPosition();
 
         if (SlowMode) {
             PowerFactor = DefaultPowerFactor * 2;
@@ -135,36 +140,59 @@ public class ArmSubsystem extends SubsystemBase {
         ArmExtendMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //TODO:  Update telemetry text so that it makes sense.  See the method above this one.
-        telemetry.addData("SelectedItem","Arm Extend Motor");
-        telemetry.addData("MotorZeroPowerBehavior",ArmExtendMotor.getZeroPowerBehavior());
-        telemetry.addData("Power", ArmExtendMotor.getPower());
-    }
+        telemetry.addData("ArmExtendMotor Position: ", currentPosition);
+        telemetry.addData("ArmExtendMotor Power: ", ArmExtendMotor.getPower());
 
+        return currentPosition;
+    }
 
 
     // TODO:  take in paramater of how many clicks to extend (see Raise)
-    public void Extend () {
-        telemetry.addData("Arm subsystem method", "Extend");
-    }
+    public double ExtendByNumbers(double motorPower,int targetMaxPosition) {
 
-    // TODO:  take in paramater of how many clicks to extend (see Raise)
-    public void ExtendFully () {
-        telemetry.addData("Arm subsystem method", "ExtendFully");
+        int currPosition;
+        int targetPosition;
+
+        do {
+            currPosition = ArmExtendMotor.getCurrentPosition();
+            targetPosition = currPosition + armExtendIncrement;
+
+            ArmExtendMotor.setTargetPosition(targetPosition);
+            ArmExtendMotor.setPower(motorPower);
+
+            telemetry.addData("ArmExtendMotor Position", currPosition);
+            telemetry.update();
+
+            sleep(_extendCycleMiliseconds);
+
+        } while (currPosition < _armExtendMaxClicks && currPosition < targetMaxPosition);
+
+        return currPosition;
     }
 
     // TODO:  take in paramater of how many clicks to retract (see Raise)
-    public void Retract () {
-        telemetry.addData("Arm subsystem method", "Retract");
-    }
-
-    // TODO:  take in paramater of how many clicks to retract (see Raise)
-    public void RetractFully () {
+    public double RetractByNumbers(double motorPower,int targetMaxPosition) {
         telemetry.addData("Arm subsystem method", "RetractFully");
+
+        int currPosition;
+        int targetPosition;
+
+        do {
+            currPosition = ArmExtendMotor.getCurrentPosition();
+            targetPosition = currPosition - armRetractIncrement;
+
+            ArmExtendMotor.setTargetPosition(targetPosition);
+            ArmExtendMotor.setPower(motorPower);
+
+            telemetry.addData("ArmExtendMotor Position", currPosition);
+            telemetry.update();
+
+            sleep(_extendCycleMiliseconds);
+
+        } while (currPosition > _armExtendMinClicks && currPosition > targetMaxPosition);
+
+        return currPosition;
     }
-
-
-
-
 
     public double Raise (double motorPower) {
         telemetry.addData("Arm subsystem method", "Extend");
@@ -189,7 +217,7 @@ public class ArmSubsystem extends SubsystemBase {
 
         do {
             currPosition = Raise(motorPower);
-            sleep(_cycleMiliseconds);
+            sleep(_raiseCycleMiliseconds);
         } while (currPosition < _armRaiseMaxClicks);
 
         return currPosition;
@@ -217,7 +245,7 @@ public class ArmSubsystem extends SubsystemBase {
 
         do {
             currPosition = Lower(motorPower);
-            sleep(_cycleMiliseconds);
+            sleep(_raiseCycleMiliseconds);
         } while(currPosition > _armRaiseMinClicks);
 
         return currPosition;
