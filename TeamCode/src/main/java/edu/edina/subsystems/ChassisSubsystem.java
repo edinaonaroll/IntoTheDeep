@@ -74,7 +74,6 @@ public class ChassisSubsystem extends SubsystemBase {
     }
 
     public void DriveByController(double xDriveInput, double yDriveInput, double turnInput, boolean Slowmode) {
-
         // flip sign because input needs to be the other way for sensible driving
         if (Slowmode){
             yDriveInput = -yDriveInput / 2;

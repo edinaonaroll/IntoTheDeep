@@ -114,6 +114,8 @@ public class ArmSubsystem extends SubsystemBase {
             // if the arm is coming down, brake will stop it from going *UP*.
             // set the power to a low 'going up' value, so that brake will keep it from going down.
             ArmLiftMotor.setPower(.05);
+            // now set to zero to enable brake
+            ArmLiftMotor.setPower(0);
             ArmLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
 
@@ -136,7 +138,10 @@ public class ArmSubsystem extends SubsystemBase {
             PowerFactor = DefaultPowerFactor;
         }
 
-        ArmExtendMotor.setPower(Input/PowerFactor);
+        if (currentPosition > _armExtendMinClicks && currentPosition < _armExtendMaxClicks) {
+            ArmExtendMotor.setPower(Input / PowerFactor);
+        }
+
         ArmExtendMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //TODO:  Update telemetry text so that it makes sense.  See the method above this one.
