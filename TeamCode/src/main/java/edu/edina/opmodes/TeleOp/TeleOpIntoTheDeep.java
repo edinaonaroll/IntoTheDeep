@@ -38,11 +38,8 @@ public class TeleOpIntoTheDeep extends LinearOpMode
             currTime = runtime.time();
 
             // flag control section
-            if (currTime < 1) {
-                flagSubsystem.Lower();
-            }
 
-            if (currTime > 2 && currTime < 60) {
+            if (currTime > 0 && currTime < 60) {
                 flagSubsystem.Raise();
             }
 
