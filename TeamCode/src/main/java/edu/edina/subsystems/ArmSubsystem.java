@@ -32,7 +32,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     // arm extend limits
     static final int _armExtendMaxClicks = 570;
-    static final int _armExtendMinClicks = 46;
+    static final int _armExtendMinClicks = -45;
     public ArmSubsystem(HardwareMap hardwareMapReference, Telemetry telemetryReference, SubsystemInitMode initMode) {
         map = hardwareMapReference;
         telemetry = telemetryReference;
@@ -61,9 +61,6 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public double ArmRaiseLowerByNumbers(double yInput, boolean SlowMode) {
-
-        //TODO:  Update telemetry text so that shows what motor is in slow mode
-        telemetry.addData("SlowMode", SlowMode);
 
         double DefaultPowerFactor = 3.5;
         double PowerFactor = 0;
@@ -119,9 +116,9 @@ public class ArmSubsystem extends SubsystemBase {
             ArmLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
 
-        telemetry.addData("ArmLiftMotor Power", ArmLiftMotor.getPower());
-        telemetry.addData("ArmLiftMotor current Position", currentPosition);
-        telemetry.addData("ArmLiftMotor ZeroPowerBehavior",ArmLiftMotor.getZeroPowerBehavior());
+        telemetry.addData("Arm LiftMotor Power", ArmLiftMotor.getPower());
+        telemetry.addData("Arm LiftMotor current Position", currentPosition);
+        telemetry.addData("Arm LiftMotor ZeroPowerBehavior",ArmLiftMotor.getZeroPowerBehavior());
 
         return position;
     }
@@ -138,21 +135,31 @@ public class ArmSubsystem extends SubsystemBase {
             PowerFactor = DefaultPowerFactor;
         }
 
-        if (currentPosition > _armExtendMinClicks && currentPosition < _armExtendMaxClicks) {
+        if (currentPosition > (_armExtendMinClicks) && currentPosition < (_armExtendMaxClicks)) {
+            ArmExtendMotor.setPower(Input / PowerFactor);
+            telemetry.addData("Mode", "Normal");
+        } else if (
+                    (currentPosition <= _armExtendMinClicks && Input > 0)
+                    ||
+                    (currentPosition >= _armExtendMaxClicks && Input < 0)
+                  )
+        {
+            ArmExtendMotor.setPower(Input / PowerFactor);
+            telemetry.addData("Mode", "Limited " + Input);
+        } else if (Input == 0){
             ArmExtendMotor.setPower(Input / PowerFactor);
         }
 
         ArmExtendMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        //TODO:  Update telemetry text so that it makes sense.  See the method above this one.
-        telemetry.addData("ArmExtendMotor Position: ", currentPosition);
-        telemetry.addData("ArmExtendMotor Power: ", ArmExtendMotor.getPower());
+        telemetry.addData("Arm ExtendMotor Position: ", currentPosition);
+        telemetry.addData("Arm ExtendMotor Input: ", Input);
+        telemetry.addData("Arm ExtendMotor Power: ", ArmExtendMotor.getPower());
 
         return currentPosition;
     }
 
 
-    // TODO:  take in paramater of how many clicks to extend (see Raise)
     public double ExtendByNumbers(double motorPower,int targetMaxPosition) {
 
         int currPosition;

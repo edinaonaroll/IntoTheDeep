@@ -98,9 +98,9 @@ public class ChassisSubsystem extends SubsystemBase {
         frontRightDrive.setPower(frontRightMotorPower);
         backRightDrive.setPower(backRightMotorPower);
 
-        telemetry.addData("xDriveInput", xDriveInput);
-        telemetry.addData("yDriveInput", yDriveInput);
-        telemetry.addData("turnInput", turnInput);
+        telemetry.addData("Drive: X Input", xDriveInput);
+        telemetry.addData("Drive: Y Input", yDriveInput);
+        telemetry.addData("Drive: Turn Input", turnInput);
     }
 
     public void DriveForward_Inches(int inches, double speed){

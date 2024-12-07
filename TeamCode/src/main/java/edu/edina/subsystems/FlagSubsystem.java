@@ -41,8 +41,6 @@ public class FlagSubsystem extends SubsystemBase {
         positionRight += _increment;
         positionLeft -= _increment;
 
-        telemetry.addData("Servo Position", positionLeft);
-
         if (positionRight >= _maxPositionRight) {
             positionRight = _maxPositionRight;
         }
@@ -78,8 +76,6 @@ public class FlagSubsystem extends SubsystemBase {
         positionRight -= _increment;
         positionLeft += _increment;
 
-        telemetry.addData("Servo Position", positionLeft);
-
         if (positionLeft >= _minPositionLeft) {
             positionLeft = _minPositionLeft;
         }
@@ -91,8 +87,8 @@ public class FlagSubsystem extends SubsystemBase {
         FlagServoLeft.setPosition(positionLeft);
         FlagServoRight.setPosition(positionRight);
 
-        telemetry.addData("FlagServoRight position: ", positionRight);
-        telemetry.addData("FlagServoLeft position: ", positionLeft);
+        telemetry.addData("FlagServoRight position", positionRight);
+        telemetry.addData("FlagServoLeft position", positionLeft);
 
         return positionLeft;
     }

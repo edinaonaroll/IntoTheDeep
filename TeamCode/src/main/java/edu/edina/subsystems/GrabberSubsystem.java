@@ -19,8 +19,8 @@ public class GrabberSubsystem extends SubsystemBase {
 
     // grabber limits
     static final double _increment      = 0.01;     // amount to slew servo each CYCLE_MS cycle
-    static final double _maxPosition    =  1.0;     // Maximum rotational position
-    static final double _minPosition    =  0.432;    // larger number is more open
+    static final double _maxPosition    =  0.5;     // Maximum rotational position
+    static final double _minPosition    =  0.325;    // larger number is more open
 
     static final int _cycleMiliseconds  =   50;
 

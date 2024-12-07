@@ -72,6 +72,7 @@ public class Autonomous_v1 extends LinearOpMode{
 
 
             flagSubsystem.Lower();
+            grabberSubsystem.GrabFully();
 
             telemetry.addData("Run time: ", runtime.toString());
 
@@ -79,5 +80,11 @@ public class Autonomous_v1 extends LinearOpMode{
 
             break;
         }
+
+        // reset at end
+        armsubsystem.RetractByNumbers(.9, 46);
+        armsubsystem.LowerFully(.2);
+        flagSubsystem.Lower();
+        grabberSubsystem.GrabFully();
     }
 }

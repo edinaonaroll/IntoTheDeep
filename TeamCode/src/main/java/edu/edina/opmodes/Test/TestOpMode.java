@@ -93,6 +93,7 @@ public class TestOpMode extends LinearOpMode {
                     break;
                 case 2:
                     ArmExtendMotor.setPower(yInput);
+                    telemetry.addData("Position", ArmExtendMotor.getCurrentPosition());
                     telemetry.addData("SelectedItem","Arm Extend Motor");
                     telemetry.addData("Power", ArmExtendMotor.getPower());
                     break;

@@ -26,6 +26,7 @@ public class TeleOpIntoTheDeep extends LinearOpMode
         GrabberSubsystem grabberSubsystem = new GrabberSubsystem (hardwareMap, telemetry);
 
         grabberSubsystem.GrabFully();
+        flagSubsystem.Raise();
 
         telemetry.addData("Status", "Initialized");
 
@@ -39,10 +40,9 @@ public class TeleOpIntoTheDeep extends LinearOpMode
 
             // flag control section
 
-            if (currTime > 0 && currTime < 60) {
+            if (currTime < 60) {
                 flagSubsystem.Raise();
             }
-
 
             if (currTime > 60) {
                 flagSubsystem.Lower();
@@ -58,17 +58,14 @@ public class TeleOpIntoTheDeep extends LinearOpMode
 
             chassisSubsystem.DriveByController(xDriveInput, yDriveInput, turnInput, driveSlowMode);
 
-
             //Arm control section
             double armLiftInput = gamepad2.left_stick_y;
             double armExtendInput = gamepad2.left_stick_x;
 
-            boolean clawOpenInput = gamepad2.dpad_up;
-            boolean clawCloseInput = gamepad2.dpad_down;
+            boolean clawOpenInput = gamepad2.y;
+            boolean clawCloseInput = gamepad2.x;
 
             boolean armSlowMode = gamepad2.a;
-            boolean raiseArmFully = gamepad2.y;
-
 
             armSubsystem.ArmRaiseLowerByNumbers(armLiftInput, armSlowMode);
             armSubsystem.ArmExtendRetractByNumbers(armExtendInput, armSlowMode);
@@ -79,19 +76,18 @@ public class TeleOpIntoTheDeep extends LinearOpMode
                 grabberSubsystem.Grab();
             }
 
-            if (raiseArmFully){
-                //armSubsystem.RaiseFully(.5);
-            }
-
             telemetry.addData("Run Time: ", runtime.time());
             telemetry.addData("status", "Running");
             telemetry.update();
 
-
-
             idle();
         }
 
+        // reset at end
+        armSubsystem.RetractByNumbers(.9, 46);
+        armSubsystem.LowerFully(.2);
+        flagSubsystem.Lower();
+        grabberSubsystem.GrabFully();
 
         runtime.reset();
     }
