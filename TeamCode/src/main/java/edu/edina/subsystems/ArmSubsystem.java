@@ -27,8 +27,8 @@ public class ArmSubsystem extends SubsystemBase {
     static final int _extendCycleMiliseconds  =   30;     // period of each cycle
 
     // arm raise limits
-    static final int _armRaiseMaxClicks = 350;
-    static final int _armRaiseMinClicks =  0;
+    static final int _armRaiseMaxClicks = 340;
+    static final int _armRaiseMinClicks =  28;
 
     // arm extend limits
     static final int _armExtendMaxClicks = 570;

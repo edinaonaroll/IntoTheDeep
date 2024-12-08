@@ -10,16 +10,15 @@ import edu.edina.subsystems.ArmSubsystem;
 import edu.edina.subsystems.ChassisSubsystem;
 import edu.edina.subsystems.FlagSubsystem;
 
-@TeleOp(name= "GetASample", group= "Autonomous")
-@Disabled
-public class GetASample extends LinearOpMode{
+@TeleOp(name= "ParkNear", group= "Autonomous")
+//@Disabled
+public class ParkNear extends LinearOpMode{
 
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
     public void runOpMode() {
 
-        ArmSubsystem armsubsystem = new ArmSubsystem(hardwareMap, telemetry , SubsystemInitMode.Autonomous);
         ChassisSubsystem chassisSubsystem = new ChassisSubsystem(hardwareMap, telemetry, SubsystemInitMode.Autonomous);
         FlagSubsystem flagSubsystem = new FlagSubsystem(hardwareMap, telemetry);
 
@@ -33,7 +32,8 @@ public class GetASample extends LinearOpMode{
 
         while (opModeIsActive()) {
             // drive forward two inches
-            chassisSubsystem.DriveForward_Inches(2, .5);
+            chassisSubsystem.DriveForward_Inches(70, .5);
+            break;
         }
 
         flagSubsystem.Lower();
