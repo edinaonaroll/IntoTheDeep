@@ -11,9 +11,9 @@ import edu.edina.subsystems.ChassisSubsystem;
 import edu.edina.subsystems.FlagSubsystem;
 import edu.edina.subsystems.GrabberSubsystem;
 
-@TeleOp(name= "ParkFar", group= "Autonomous")
+@TeleOp(name= "GitOut", group= "Autonomous")
 //@Disabled
-public class ParkFar extends LinearOpMode{
+public class GitOut extends LinearOpMode{
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -34,9 +34,8 @@ public class ParkFar extends LinearOpMode{
         flagSubsystem.Raise();
 
         while (opModeIsActive()) {
-            chassisSubsystem.DriveLeft_Inches(50,.5);
-            chassisSubsystem.DriveForward_Inches(140, .5);
-            chassisSubsystem.DriveRight_Inches(50,.5);
+            // drive forward two inches
+            chassisSubsystem.DriveForward_Inches(40, .5);
             break;
         }
 

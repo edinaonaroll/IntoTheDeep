@@ -9,6 +9,7 @@ import edu.edina.definitions.SubsystemInitMode;
 import edu.edina.subsystems.ArmSubsystem;
 import edu.edina.subsystems.ChassisSubsystem;
 import edu.edina.subsystems.FlagSubsystem;
+import edu.edina.subsystems.GrabberSubsystem;
 
 @TeleOp(name= "ParkNear", group= "Autonomous")
 //@Disabled
@@ -21,8 +22,10 @@ public class ParkNear extends LinearOpMode{
 
         ChassisSubsystem chassisSubsystem = new ChassisSubsystem(hardwareMap, telemetry, SubsystemInitMode.Autonomous);
         FlagSubsystem flagSubsystem = new FlagSubsystem(hardwareMap, telemetry);
+        GrabberSubsystem grabberSubsystem = new GrabberSubsystem(hardwareMap, telemetry);
 
         flagSubsystem.Lower();
+        grabberSubsystem.GrabFully();
 
         telemetry.addData("Status", "Initialized");
 

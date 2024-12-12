@@ -31,11 +31,12 @@ public class BasketASample extends LinearOpMode{
 
         waitForStart();
 
+        runtime.reset();
         flagSubsystem.Raise();
 
         while (opModeIsActive()) {
             armSubsystem.RaiseFully(0.5);
-            chassisSubsystem.DriveRight_Inches(40,.5);
+            chassisSubsystem.DriveRight_Inches(40,.6);
             chassisSubsystem.TurnLeft(15,0.5);
             chassisSubsystem.DriveForward_Inches(95,.5);
             chassisSubsystem.TurnLeft(15,.5);
@@ -43,10 +44,10 @@ public class BasketASample extends LinearOpMode{
 
             armSubsystem.ExtendByNumbers(.5,500);
             grabberSubsystem.ReleaseFully();
-            armSubsystem.RetractByNumbers(.5,15);
-            armSubsystem.LowerFully(0.5);
+            armSubsystem.RetractByNumbers(.8,15);
+            armSubsystem.LowerFully(0.7);
             chassisSubsystem.TurnRight(23, 0.5);
-            chassisSubsystem.DriveBack_Inches(100, .5);
+            chassisSubsystem.DriveBack_Inches(100, .6);
 
             break;
         }

@@ -1,5 +1,6 @@
 package edu.edina.opmodes.Test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -11,6 +12,7 @@ import edu.edina.subsystems.FlagSubsystem;
 import edu.edina.subsystems.GrabberSubsystem;
 
 @TeleOp(name= "Test Autonomous", group= "Test")
+@Disabled
 public class TestAutonomousOpMode extends LinearOpMode{
 
     private ElapsedTime runtime = new ElapsedTime();
