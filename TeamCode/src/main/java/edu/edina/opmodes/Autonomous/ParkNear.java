@@ -12,7 +12,7 @@ import edu.edina.subsystems.FlagSubsystem;
 import edu.edina.subsystems.GrabberSubsystem;
 
 @TeleOp(name= "ParkNear", group= "Autonomous")
-//@Disabled
+@Disabled
 public class ParkNear extends LinearOpMode{
 
     private ElapsedTime runtime = new ElapsedTime();

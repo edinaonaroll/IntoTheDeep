@@ -35,7 +35,7 @@ public class ParkNearer extends LinearOpMode{
 
         while (opModeIsActive()) {
             // drive forward two inches
-            chassisSubsystem.DriveForward_Inches(70, .5);
+            chassisSubsystem.DriveForward_Inches(80, .5);
             break;
         }
 

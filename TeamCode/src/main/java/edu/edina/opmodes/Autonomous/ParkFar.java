@@ -35,7 +35,7 @@ public class ParkFar extends LinearOpMode{
 
         while (opModeIsActive()) {
             chassisSubsystem.DriveLeft_Inches(50,.5);
-            chassisSubsystem.DriveForward_Inches(140, .5);
+            chassisSubsystem.DriveForward_Inches(190, .5);
             chassisSubsystem.DriveRight_Inches(50,.5);
             break;
         }

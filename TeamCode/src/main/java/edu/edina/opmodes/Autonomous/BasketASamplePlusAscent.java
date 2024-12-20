@@ -36,17 +36,22 @@ public class BasketASamplePlusAscent extends LinearOpMode{
 
         while (opModeIsActive()) {
             armSubsystem.RaiseFully(0.5);
-            chassisSubsystem.DriveRight_Inches(40,.6);
+            chassisSubsystem.DriveRight_Inches(23,.6);
             chassisSubsystem.TurnLeft(15,0.5);
-            chassisSubsystem.DriveForward_Inches(95,.5);
+            chassisSubsystem.DriveForward_Inches(30,.5);
             chassisSubsystem.TurnLeft(15,.5);
-            chassisSubsystem.DriveForward_Inches(3,.5);
+//            chassisSubsystem.DriveForward_Inches(1,.5);
 
             armSubsystem.ExtendByNumbers(.5,500);
             grabberSubsystem.ReleaseFully();
             armSubsystem.RetractByNumbers(.8,15);
             chassisSubsystem.TurnRight(27,0.5);
-            chassisSubsystem.DriveBack_Inches(2,0.5);
+            chassisSubsystem.DriveBack_Inches(9,0.5);
+            chassisSubsystem.DriveRight_Inches(175, 0.75);
+            chassisSubsystem.TurnRight(180, 0.75);
+            chassisSubsystem.DriveForward_Inches(40, 0.75);
+            armSubsystem.ExtendByNumbers(1, 373);
+            armSubsystem.Lower(0.5);
 
 
 //            chassisSubsystem.DriveRight_Inches(48,0.5);
